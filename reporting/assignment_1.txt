@@ -1,0 +1,6 @@
+working alone - ap14974
+I will be using XHTML and validating my html code online on
+https://validator.w3.org/.
+
+I may also use a templating engine to reduce repeated code and to ensure
+correct coding throughout the product.

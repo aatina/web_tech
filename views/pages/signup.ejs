@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <% include ../partials/head %>
+	</head>
+  <header>
+    <% include ../partials/header %>
+  </header>
+
+  <body>
+
+    <div class="content-wrapper container">
+      <form class="CreateUser" action="/createUser" method="POST">
+        <h1>Create a new user</h1>
+        <input type="text" name="user[username]" class="username" placeholder="username">
+        <input type="password" name="user[password]" class="password" placeholder="password">
+        <input type="email"  name="user[email]" class="email" placeholder="email">
+        <input type="submit" value="Create user">
+      </form>
+        <!-- <script src="/app.js"></script>-->
+    </div>
+
+  </body>
+
+  <footer>
+    <% include ../partials/footer %>
+  </footer>
+
+</html>

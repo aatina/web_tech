@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <% include ../partials/head %>
+	</head>
+
+	<body>
+
+		<header>
+			<% include ../partials/header %>
+		</header>
+
+		<div class="container content-wrapper col-lg-12">
+			<div class="recipe-title">
+				<h1><%= recipe[0].name %></h1>
+				<p>by <%= recipe[0].username %></p>
+			</div>
+			<div class="row">
+				<div id="ingredients-col" class = "col-lg-6 col-md-6">
+					<h3> Ingredients </h3>
+				</div>
+				<div id="method-col" class = "col-lg-6 col-md-6">
+					<h3> Method </h2>
+					<p><%= recipe[0].body %></p>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+			<% include ../partials/footer %>
+		</footer>
+
+  </body>
+</html>

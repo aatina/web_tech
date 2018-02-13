@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <% include ../partials/head %>
+	</head>
+  <header>
+    <% include ../partials/header %>
+  </header>
+
+  <body>
+    <div class="content-wrapper container">
+			<h1>Add a recipe</h1>
+			<% if (locals.username) { %>
+      <form class="AddRecipe" action="/addRecipe" method="POST">
+				<div class="form-group">
+					<label>Recipe Title</label>
+					<input type="text" class="recipe_name form-control" name="recipe[name]" aria-describedby="emailHelp" placeholder="Enter title">
+				</div>
+				<div class="form-group">
+					<label>Ingredients</label>
+					<textarea class="form-control recipe_body" name="recipe[body]" rows="3"></textarea>
+				</div>
+				<div class="form-group">
+					<label>Method</label>
+					<textarea class="form-control recipe_body" name="recipe[body]" rows="3"></textarea>
+				</div>
+				<div class="form-group">
+					<input type="submit" value="Add Recipe">
+				</div>
+
+      </form>
+			<% } else { %>
+				<p> Please <a href = "/login">log in</a> to add a recipe </p>
+			<% } %>
+    </div>
+  </body>
+
+  <footer>
+    <% include ../partials/footer %>
+  </footer>
+
+</html>
