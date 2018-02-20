@@ -34,10 +34,13 @@ p {
   background-color: #6BA292;
   padding: 0px 15px;
 }
-.navbar li {
-  padding: 10px 5px;
+.navbar ul {
+  list-style: none;
 }
-.navbar li:hover {
-  background-color: #78AA9B;
-  border-bottom: #796B68 3px solid;
+.navbar ul li {
+  padding: 10px 5px;
+  border-bottom: transparent 3px solid;
+}
+.navbar ul li a {
+  color: white;
 }
