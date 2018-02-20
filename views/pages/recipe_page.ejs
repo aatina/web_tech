@@ -11,20 +11,32 @@
 			<% include ../partials/header %>
 		</header>
 
-		<div class="container content-wrapper col-lg-12">
-			<div class="recipe-title">
-				<h1><%= recipe[0].name %></h1>
-				<p>by <%= recipe[0].username %></p>
+		<div id="recipe-page">
+			
+			<div class="jumbrotron banner" style="	background-image: url('../../<%= recipe[0].image_url %>');">
+				<div id="recipe-summary">
+					<div class="category">
+						<span>Category: </span> <%= recipe[0].category %>
+					</div>
+	      </div>
 			</div>
-			<div class="row">
-				<div id="ingredients-col" class = "col-lg-6 col-md-6">
-					<h3> Ingredients </h3>
+
+			<div class="container content-wrapper">
+				<div class="recipe-title">
+					<h1><%= recipe[0].name %></h1>
+					<p>by <%= recipe[0].username %></p>
 				</div>
-				<div id="method-col" class = "col-lg-6 col-md-6">
-					<h3> Method </h2>
-					<%- method %>
+				<div class="row">
+					<div id="ingredients-col" class = "col-lg-6 col-md-6">
+						<h3> Ingredients </h3>
+					</div>
+					<div id="method-col" class = "col-lg-6 col-md-6">
+						<h3> Method </h2>
+						<%- method %>
+					</div>
 				</div>
 			</div>
+
 		</div>
 
 		<footer>

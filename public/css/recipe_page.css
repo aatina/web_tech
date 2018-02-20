@@ -99,20 +99,6 @@
 #recipe-block .recipe-preview .recipe-wrapper:hover .image-text {
   background-color: rgba(0, 0, 0, 0.8);
 }
-#recipe-page .banner #recipe-summary {
-  position: absolute;
-  top: 50%;
-  left: 2%;
-  width: 25%;
-  background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 10px;
-  padding: 25px;
-  color: #635255;
-}
-#recipe-page .banner #recipe-summary span {
-  font-weight: bolder;
-  color: #6BA292;
-}
 p {
   color: #635255;
 }

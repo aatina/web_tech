@@ -30,6 +30,9 @@
   border-radius: 5px;
   padding: 5px;
   padding-left: 10px;
+  -webkit-transition: background-color 0.5s;
+  /* Safari */
+  transition: background-color 0.5s;
 }
 #recipe-block .recipe-preview .recipe-wrapper .image-text span {
   color: white;
@@ -41,20 +44,19 @@
 p {
   color: #635255;
 }
-#banner {
-  background-image: url('/images/banner2.png');
+.banner {
   background-position: 0 -50px;
   background-size: cover;
   padding-bottom: 300px;
   position: relative;
 }
-#banner #title-wrapper {
+.banner #title-wrapper {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
 }
-#banner #title-wrapper h1 {
+.banner #title-wrapper h1 {
   text-align: center;
   margin: 0;
   color: white;

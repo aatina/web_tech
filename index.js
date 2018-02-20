@@ -63,8 +63,12 @@ app.get('/',function(req,res){
 app.get('/recipes/:recipeName',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, recipes.image_url, recipes.body, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE recipes.name = ? COLLATE NOCASE", [req.params.recipeName])
+  db.conn.query("SELECT recipes.name, recipes.image_url, recipes.body, users.username, categories.name AS category \
+                  FROM recipes INNER JOIN users ON recipes.user_id = users.user_id \
+                  INNER JOIN categories ON recipes.category_id = categories.id \
+                  WHERE recipes.name=? COLLATE NOCASE",[req.params.recipeName])
   .then((recipe) => {
+    console.log(recipe);
     params["recipe"] = recipe;
     params["method"] = converter.makeHtml(recipe[0].body);
     res.render('pages/recipe_page', params );
@@ -97,8 +101,15 @@ app.get('/about',function(req,res){
 // Add recipies
 app.get('/add_recipe',function(req,res){
   sess=req.session;
-  var user = getSessionUser(sess);
-  res.render('pages/add_recipe', user);
+  var params = getSessionUser(sess);
+  db.conn.query("SELECT categories.id, categories.name FROM categories")
+  .then((categories) => {
+    params["category"] = categories;
+    res.render('pages/add_recipe', params );
+  })
+  .catch(() => {
+    res.render('pages/add_recipe', params );
+  })
 });
 
 // Only shows when logged out
@@ -155,10 +166,11 @@ app.post('/addRecipe', (req, res) => {
     store.addRecipe({
         name: req.body.recipe.name,
         body: req.body.recipe.body,
+        category_id: req.body.recipe.category_id,
         user: sess.user.user_id
       })
       .then(() => {
-        console.log("Recipe Added " + req.body.recipe.name + " by " + sess.user.user_id);
+        console.log("Recipe Added " + req.body.recipe.name + " by " + sess.user.username);
         res.redirect("/");
       })
       .catch(() => {
