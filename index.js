@@ -2,8 +2,9 @@ const express = require('express')
 const session = require('express-session');
 const app = express();
 const path = require("path");
-const hbs = require('handlebars');
 const bodyParser = require('body-parser');
+const showdown  = require('showdown');
+const converter = new showdown.Converter();
 
 var store = require('./store');
 var db = require ('./db');
@@ -65,6 +66,7 @@ app.get('/recipes/:recipeName',function(req,res){
   db.conn.query("SELECT recipes.name, recipes.body, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE recipes.name = ? COLLATE NOCASE", [req.params.recipeName])
   .then((recipe) => {
     params["recipe"] = recipe;
+    params["method"] = converter.makeHtml(recipe[0].body);
     console.log(params)
     res.render('pages/recipe_page', params );
   })

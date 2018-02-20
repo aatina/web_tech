@@ -17,16 +17,23 @@
 					<label>Recipe Title</label>
 					<input type="text" class="recipe_name form-control" name="recipe[name]" aria-describedby="emailHelp" placeholder="Enter title">
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label>Ingredients</label>
 					<textarea class="form-control recipe_body" name="recipe[body]" rows="3"></textarea>
-				</div>
+				</div> -->
 				<div class="form-group">
 					<label>Method</label>
 					<textarea class="form-control recipe_body" name="recipe[body]" rows="3"></textarea>
+					<small class="form-text text-muted">Formatted in
+						<a href = "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
+							markdown
+						</a>
+					</small>
+  		</div>
+  <div class="form-group">
 				</div>
 				<div class="form-group">
-					<input type="submit" value="Add Recipe">
+					<button type="submit" class="btn btn-primary">Submit</button>
 				</div>
 
       </form>
