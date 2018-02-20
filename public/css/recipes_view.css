@@ -56,6 +56,38 @@
   border-left: 6px solid transparent;
   content: '';
 }
+p {
+  color: #635255;
+}
+#banner {
+  background-image: url('/images/banner2.png');
+  background-position: 0 -50px;
+  background-size: cover;
+  padding-bottom: 300px;
+  position: relative;
+}
+#banner #title-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+#banner #title-wrapper h1 {
+  text-align: center;
+  margin: 0;
+  color: white;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 56px;
+  font-weight: bold;
+  text-shadow: -2px 2px rgba(0, 0, 0, 0.5);
+}
+.content-wrapper {
+  background: #BCD8B7;
+  height: 100%;
+}
+.content-wrapper h2 {
+  color: #635255;
+}
 #recipe-block ul {
   list-style: none;
 }
@@ -95,36 +127,4 @@
 }
 #recipe-block .recipe-preview .recipe-wrapper:hover .image-text {
   background-color: rgba(0, 0, 0, 0.8);
-}
-p {
-  color: #635255;
-}
-#banner {
-  background-image: url('/images/banner2.png');
-  background-position: 0 -50px;
-  background-size: cover;
-  padding-bottom: 300px;
-  position: relative;
-}
-#banner #title-wrapper {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-}
-#banner #title-wrapper h1 {
-  text-align: center;
-  margin: 0;
-  color: white;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 56px;
-  font-weight: bold;
-  text-shadow: -2px 2px rgba(0, 0, 0, 0.5);
-}
-.content-wrapper {
-  background: #BCD8B7;
-  height: 100%;
-}
-.content-wrapper h2 {
-  color: #635255;
 }

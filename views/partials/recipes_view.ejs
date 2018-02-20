@@ -1,0 +1,25 @@
+<div id="recipe-block">
+  <h2>Recently added recipes</h2>
+  <ul>
+      <% recipe.forEach(function(recipe) { %>
+          <li class="recipe-preview col-lg-6 col-md-6">
+            <a href = "/recipes/<%= recipe.name %>" >
+              <div class="recipe-wrapper">
+                <!-- If there's no image then a default image should be used -->
+                <% if (locals.image_url) { %>
+                <div class="recipe-image" style= 'background-image: url("<%= recipe.image_url %>")'></div>
+                <% } else { %>
+                <div class="recipe-image" style= 'background-image: url("images/recipe_images/katsucurry.jpg")'></div>
+                <% } %>
+                <div class="image-text">
+                  <%= recipe.name %>
+                  <br>
+                  <!-- username should link to user page, maybe?? -->
+                  <span>by <%= recipe.username %></span>
+                </div>
+              </div>
+            </a>
+          </li>
+      <% }); %>
+  </ul>
+</div>

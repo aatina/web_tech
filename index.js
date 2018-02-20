@@ -49,7 +49,7 @@ app.get('/test', (req, res) => {
 app.get('/',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT 10")
+  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT 6")
   .then((recipe) => {
     params["recipe"] = recipe;
     res.render('pages/index', params );
@@ -63,11 +63,10 @@ app.get('/',function(req,res){
 app.get('/recipes/:recipeName',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, recipes.body, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE recipes.name = ? COLLATE NOCASE", [req.params.recipeName])
+  db.conn.query("SELECT recipes.name, recipes.image_url, recipes.body, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE recipes.name = ? COLLATE NOCASE", [req.params.recipeName])
   .then((recipe) => {
     params["recipe"] = recipe;
     params["method"] = converter.makeHtml(recipe[0].body);
-    console.log(params)
     res.render('pages/recipe_page', params );
   })
   .catch(() => {
@@ -78,7 +77,7 @@ app.get('/recipes/:recipeName',function(req,res){
 app.get('/recipes',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT 10")
+  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC")
   .then((recipe) => {
     params["recipe"] = recipe;
     res.render('pages/recipes', params );
