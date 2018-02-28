@@ -12,11 +12,12 @@
 		</header>
 
 		<div id="recipe-page">
-			
+
 			<div class="jumbrotron banner" style="	background-image: url('../../<%= recipe[0].image_url %>');">
 				<div id="recipe-summary">
 					<div class="category">
-						<span>Category: </span> <%= recipe[0].category %>
+						<span>Category</span>
+						<p><%= recipe[0].category %></p>
 					</div>
 	      </div>
 			</div>
@@ -26,6 +27,16 @@
 					<h1><%= recipe[0].name %></h1>
 					<p>by <%= recipe[0].username %></p>
 				</div>
+
+				<% if (locals.username) { %>
+					<div id="add-fave">
+						<% if (favourite) { %>
+						<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+						<% } else { %>
+						<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:gray"></i>
+					</div>
+				<% }} %>
+
 				<div class="row">
 					<div id="ingredients-col" class = "col-lg-6 col-md-6">
 						<h3> Ingredients </h3>
@@ -37,11 +48,28 @@
 				</div>
 			</div>
 
-		</div>
+			</div>
 
 		<footer>
 			<% include ../partials/footer %>
 		</footer>
+
+		<script>
+			$("#add-fave").click(function(){
+	      $.ajax({	url: "/addFavourite",
+									type: 'POST',
+									data: {"recipe_id" : <%= recipe[0].recipe_id %>},
+									success: function(isFavourite){
+										if(isFavourite.result == 1){
+											$("#fave-star").css({"color": "gray", 'transition': 'color 0.3s'});
+										}
+										else{
+											$("#fave-star").css({"color": "yellow", 'transition': 'color 0.3s'});
+										}
+	      					}
+				});
+	    });
+		</script>
 
   </body>
 </html>

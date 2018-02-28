@@ -105,14 +105,19 @@
 #recipe-block .recipe-preview .recipe-wrapper:hover .image-text {
   background-color: rgba(0, 0, 0, 0.8);
 }
-.account-form form {
-  text-align: center;
+#recipe-page .banner #recipe-summary {
+  position: absolute;
+  top: 50%;
+  left: 2%;
+  width: 25%;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  padding: 25px;
+  color: #635255;
 }
-.account-form .btn-primary {
-  width: 100%;
-}
-.account-page p {
-  text-align: center;
+#recipe-page .banner #recipe-summary span {
+  font-weight: bolder;
+  color: #6BA292;
 }
 p {
   color: #635255;
@@ -149,17 +154,12 @@ p {
   font-size: 30px;
   float: right;
 }
-#recipe-page .banner #recipe-summary {
-  position: absolute;
-  top: 50%;
-  left: 2%;
-  width: 25%;
-  background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 10px;
-  padding: 25px;
-  color: #635255;
+.account-form form {
+  text-align: center;
 }
-#recipe-page .banner #recipe-summary span {
-  font-weight: bolder;
-  color: #6BA292;
+.account-form .btn-primary {
+  width: 100%;
+}
+.account-page p {
+  text-align: center;
 }

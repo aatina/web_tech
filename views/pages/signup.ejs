@@ -4,27 +4,66 @@
 	<head>
     <% include ../partials/head %>
 	</head>
-  <header>
-    <% include ../partials/header %>
-  </header>
 
   <body>
+		<header>
+	    <% include ../partials/header %>
+	  </header>
 
-    <div class="content-wrapper container">
-      <form class="CreateUser" action="/createUser" method="POST">
-        <h1>Create a new user</h1>
-        <input type="text" name="user[username]" class="username" placeholder="username">
-        <input type="password" name="user[password]" class="password" placeholder="password">
-        <input type="email"  name="user[email]" class="email" placeholder="email">
-        <input type="submit" value="Create user">
-      </form>
-        <!-- <script src="/app.js"></script>-->
-    </div>
+		<div class="content-wrapper container account-page">
+			<div class="col-sm-4"></div>
+		  <form id="signup-form" class="CreateUser account-form col-sm-4" action="/createUser" method="POST">
+		    <h1>Create a new user</h1>
+		    <div class="form-group">
+		      <input id="username-input" type="text" name="user[username]" class="username form-control" placeholder="username" required>
+		      <div id="error-message"></div>
+		    </div>
 
+		    <div class="form-group">
+		      <input type="password" name="user[password]" class="password form-control" placeholder="password" required>
+		    </div>
+
+		    <div class="form-group">
+		      <input type="email"  name="user[email]" class="email form-control" placeholder="email" required>
+		    </div>
+
+		    <div class="form-group">
+		      <button type="submit" class="btn btn-primary">Sign Up</button>
+		    </div>
+		  </form>
+		</div>
+
+
+		<script type="text/javascript">
+		$('#signup-form').submit(function(e) {
+		     // this code prevents form from actually being submitted
+		     e.preventDefault();
+		     e.returnValue = false;
+
+        var $form = $(this);
+
+         $.ajax({
+             type: 'post',
+             url: '/usernameTaken',
+             context: $form, // context will be "this" in your handlers
+						 data: {username: $('#username-input').val()},
+             success: function(resp) { // your success handler
+							 console.log(resp);
+							 if(resp == '1'){
+								 document.getElementById("error-message").innerHTML = "Username taken";
+							 }
+							 else{
+								 this.off('submit');
+                 this.submit();
+							 }
+             }
+         });
+		});
+		</script>
+
+		<footer>
+	    <% include ../partials/footer %>
+	  </footer>
   </body>
-
-  <footer>
-    <% include ../partials/footer %>
-  </footer>
 
 </html>

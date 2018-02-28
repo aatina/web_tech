@@ -10,6 +10,9 @@
 .navbar ul li {
   padding: 21px 15px;
   border-bottom: transparent 3px solid;
+  -webkit-transition: background-color 0.3s, border-bottom 0.3s;
+  /* Safari */
+  transition: background-color 0.3s, border-bottom 0.3s;
 }
 .navbar ul li a {
   color: white;
@@ -23,6 +26,9 @@
   color: #6BA292;
   display: block;
   text-align: center;
+  -webkit-transition: background-color 0.2s, color 0.15s;
+  /* Safari */
+  transition: background-color 0.2s, color 0.15s;
 }
 .navbar .dropdown-menu a:hover {
   background-color: #78AA9B;
@@ -56,6 +62,29 @@
   border-left: 6px solid transparent;
   content: '';
 }
+#recipe-page .banner #recipe-summary {
+  position: absolute;
+  top: 50%;
+  left: 2%;
+  width: 25%;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  padding: 25px;
+  color: #635255;
+}
+#recipe-page .banner #recipe-summary span {
+  font-weight: bolder;
+  color: #6BA292;
+}
+.account-form form {
+  text-align: center;
+}
+.account-form .btn-primary {
+  width: 100%;
+}
+.account-page p {
+  text-align: center;
+}
 p {
   color: #635255;
 }
@@ -86,6 +115,10 @@ p {
 }
 .content-wrapper h2 {
   color: #635255;
+}
+#fave-star {
+  font-size: 30px;
+  float: right;
 }
 #recipe-block ul {
   list-style: none;

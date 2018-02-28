@@ -29,11 +29,6 @@
 //   })
 // }
 
-const AddRecipe = document.querySelector('.AddRecipe')
-if (AddRecipe){
-
-}
-
 function post (path, data) {
   return window.fetch(path, {
     method: 'POST',

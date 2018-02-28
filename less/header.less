@@ -10,6 +10,8 @@
 		li{
 			padding: 21px 15px;
 			border-bottom: transparent 3px solid;
+			-webkit-transition: background-color 0.3s, border-bottom 0.3s; /* Safari */
+			transition: background-color 0.3s, border-bottom 0.3s;
 			a{
 				color: white;
 				text-decoration: none;
@@ -25,6 +27,8 @@
 			color: @navbar;
 			display: block;
 			text-align: center;
+			-webkit-transition: background-color 0.2s, color 0.15s; /* Safari */
+			transition: background-color 0.2s, color 0.15s;
 		}
 		a:hover{
 			background-color: @navbar-hover;

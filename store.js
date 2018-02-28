@@ -47,6 +47,22 @@ module.exports = {
       db.conn.query("INSERT INTO recipes (name, body, user_id, category_id) VALUES (?,?,?,?)", [name, body, user, category_id])
       return resolve();
     })
+  },
+  addFavourite({user, recipe}){
+    return new Promise( ( resolve, reject ) => {
+      db.conn.query("SELECT 1 FROM favourites WHERE user_id = ? AND recipe_id = ?", [user, recipe])
+      .then( rows => {
+        //console.log(rows.length);
+        if(rows.length > 0){
+          db.conn.query("DELETE FROM favourites where user_id = ? AND recipe_id = ?", [user, recipe])
+          return resolve(rows.length);
+        }
+        else{
+          db.conn.query("INSERT INTO favourites (user_id, recipe_id) VALUES (?,?)", [user, recipe]);
+          return resolve(rows.length);
+        }
+      })
+    })
   }
 }
 
