@@ -97,14 +97,24 @@ app.get('/recipes',function(req,res){
 app.get('/favourites',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT * FROM favourites")
-  .then((favourites) => {
-    params["favourites"] = favourites;
+  if(sess.user){
+    db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM recipes \
+    INNER JOIN favourites ON favourites.recipe_id = recipes.recipe_id  \
+    INNER JOIN users ON users.user_id = recipes.user_id \
+    WHERE favourites.user_id=? \
+    ORDER BY favourites.time_added DESC", [sess.user.user_id])
+    .then((recipe) => {
+      params["recipe"] = recipe;
+      console.log(params.recipe);
+      res.render('pages/favourites', params );
+    })
+    .catch(() => {
+      res.render('pages/favourites', params );
+    })
+  }
+  else{
     res.render('pages/favourites', params );
-  })
-  .catch(() => {
-    res.render('pages/favourites', params );
-  })
+  }
 });
 
 // Add recipies
