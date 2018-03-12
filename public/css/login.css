@@ -62,28 +62,28 @@
   border-left: 6px solid transparent;
   content: '';
 }
-#recipe-block ul {
+.recipe-block ul {
   list-style: none;
 }
-#recipe-block li {
+.recipe-block li {
   display: block;
 }
-#recipe-block li a {
+.recipe-block li a {
   text-decoration: none;
 }
-#recipe-block .recipe-preview {
+.recipe-block .recipe-preview {
   margin: 20px 0px;
 }
-#recipe-block .recipe-preview .recipe-wrapper {
+.recipe-block .recipe-preview .recipe-wrapper {
   width: 90%;
   margin: 0 auto;
 }
-#recipe-block .recipe-preview .recipe-wrapper .recipe-image {
+.recipe-block .recipe-preview .recipe-wrapper .recipe-image {
   height: 250px;
   width: 100%;
   border-radius: 20px;
 }
-#recipe-block .recipe-preview .recipe-wrapper .image-text {
+.recipe-block .recipe-preview .recipe-wrapper .image-text {
   color: white;
   background-color: rgba(0, 0, 0, 0.25);
   position: absolute;
@@ -98,26 +98,71 @@
   /* Safari */
   transition: background-color 0.5s;
 }
-#recipe-block .recipe-preview .recipe-wrapper .image-text span {
+.recipe-block .recipe-preview .recipe-wrapper .image-text span {
   color: white;
   font-size: 14px;
 }
-#recipe-block .recipe-preview .recipe-wrapper:hover .image-text {
+.recipe-block .recipe-preview .recipe-wrapper:hover .image-text {
   background-color: rgba(0, 0, 0, 0.8);
 }
 #recipe-page .banner #recipe-summary {
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 2%;
-  width: 25%;
+  width: 15%;
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 10px;
-  padding: 25px;
+  padding: 15px 30px;
   color: #635255;
 }
 #recipe-page .banner #recipe-summary span {
   font-weight: bolder;
   color: #6BA292;
+}
+#recipe-page .add-fave {
+  font-size: 16px;
+}
+#recipe-page .add-fave .fa-star {
+  font-size: 20px;
+}
+#recipe-page .add-fave a {
+  text-decoration: none;
+}
+#recipe-page .add-fave span {
+  color: #635255;
+}
+#recipe-page #method-col {
+  background-color: white;
+  border-radius: 5px;
+  top: -30px;
+  width: 100%;
+}
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
 }
 p {
   color: #635255;
@@ -149,10 +194,6 @@ p {
 }
 .content-wrapper h2 {
   color: #635255;
-}
-#fave-star {
-  font-size: 30px;
-  float: right;
 }
 .account-form form {
   text-align: center;

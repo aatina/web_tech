@@ -41,10 +41,11 @@ module.exports = {
       });
     });
   },
-  addRecipe({name, body, user, category_id}){
+  addRecipe({name, body, user, category_id, cooking_time}){
     return new Promise( ( resolve, reject ) => {
       console.log(`Adding recipe ${name}`);
-      db.conn.query("INSERT INTO recipes (name, body, user_id, category_id) VALUES (?,?,?,?)", [name, body, user, category_id])
+      //console.log(`Cooking time: cooking_time`);
+      db.conn.query("INSERT INTO recipes (name, body, user_id, category_id, cooking_time) VALUES (?,?,?,?,?)", [name, body, user, category_id, cooking_time])
       return resolve();
     })
   },

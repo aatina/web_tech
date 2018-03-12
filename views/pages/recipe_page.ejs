@@ -15,46 +15,78 @@
 
 			<div class="jumbrotron banner" style="	background-image: url('../../<%= recipe[0].image_url %>');">
 				<div id="recipe-summary">
-					<div class="category">
+					<div class="recipe-summary-detail">
 						<span>Category</span>
 						<p><%= recipe[0].category %></p>
+					</div>
+					<div class="recipe-summary-detail">
+						<span>Cooking Time</span>
+						<p id="cooking_time"></p>
+					</div>
+					<div class="recipe-summary-detail">
+						<span>Calories</span>
+						<p><%= recipe[0].calories %></p>
 					</div>
 	      </div>
 			</div>
 
 			<div class="container content-wrapper">
-				<div class="recipe-title">
-					<h1><%= recipe[0].name %></h1>
-					<p>by <%= recipe[0].username %></p>
-				</div>
-
-				<% if (locals.username) { %>
-					<div id="add-fave">
-						<% if (favourite) { %>
-						<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-						<% } else { %>
-						<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:gray"></i>
-					</div>
-				<% }} %>
-
 				<div class="row">
-					<div id="ingredients-col" class = "col-lg-6 col-md-6">
-						<h3> Ingredients </h3>
+					<div class = "left-col col-lg-6 col-md-6">
+
+						<div class="recipe-title">
+							<h1><%= recipe[0].name %></h1>
+							<p>by <%= recipe[0].username %></p>
+						</div>
+
+						<div id="add-fave" class="add-fave">
+							<% if (locals.username) { %>
+								<% if (favourite) { %>
+								<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+								<% } else { %>
+								<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:gray"></i>
+								<% } %>
+								<span>Add to favourites!</span>
+							<% } else { %>
+								<a href="/login">
+									<i class="fa fa-star" aria-hidden="true" style="color:gray"></i>
+									<span>Add to favourites!</span>
+								</a>
+							<% } %>
+						</div>
+
+						<div id="ingredients-col" class = "">
+							<h3> Ingredients </h3>
+						</div>
+
 					</div>
-					<div id="method-col" class = "col-lg-6 col-md-6">
-						<h3> Method </h2>
-						<%- method %>
+
+					<div class = "right-col col-lg-6 col-md-6">
+						<div id="method-col" class = "col-lg-6 col-md-6">
+							<h3> Method </h2>
+							<%- method %>
+						</div>
 					</div>
+
 				</div>
-			</div>
 
 			</div>
+
+		</div>
 
 		<footer>
 			<% include ../partials/footer %>
 		</footer>
 
 		<script>
+			//var cooking_time = $('#cooking_time').text();
+			$(document).ready(function(){
+				var cooking_time = <%= recipe[0].cooking_time%>
+				console.log("cooking_time: " + cooking_time)
+				var hours = Math.floor(cooking_time/60);
+				var minutes = cooking_time % 60;
+				document.getElementById("cooking_time").innerHTML = hours + " hours " + minutes + " minutes";
+			});
 			$("#add-fave").click(function(){
 	      $.ajax({	url: "/addFavourite",
 									type: 'POST',
@@ -69,6 +101,7 @@
 	      					}
 				});
 	    });
+
 		</script>
 
   </body>

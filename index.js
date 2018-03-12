@@ -63,7 +63,9 @@ app.get('/',function(req,res){
 app.get('/recipes/:recipeName',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body, users.username, favourites.recipe_id AS favourite_recipe, favourites.user_id AS favourite_user, categories.name AS category \
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body,\
+                  users.username, favourites.recipe_id AS favourite_recipe, favourites.user_id AS favourite_user, \
+                  categories.name AS category, recipes.cooking_time, recipes.calories \
                   FROM recipes INNER JOIN users ON recipes.user_id = users.user_id \
                   INNER JOIN categories ON recipes.category_id = categories.id \
                   LEFT JOIN favourites ON recipes.recipe_id = favourites.recipe_id \
@@ -186,14 +188,16 @@ app.post('/addRecipe', (req, res) => {
         name: req.body.recipe.name,
         body: req.body.recipe.body,
         category_id: req.body.recipe.category_id,
+        cooking_time: req.body.recipe.cooking_time,
         user: sess.user.user_id
       })
       .then(() => {
         console.log("Recipe Added " + req.body.recipe.name + " by " + sess.user.username);
         res.redirect("/");
       })
-      .catch(() => {
-        console.log("Error adding recipe " + req.body.recipe.name + " by " + sess.user.user_id + sess.user.username);
+      .catch((err) => {
+        console.log("Error adding recipe " + req.body.recipe.name + " by " + sess.user.username);
+        console.log(err);
         res.redirect("/add_recipe");
       })
     } else {
