@@ -5,6 +5,7 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const showdown  = require('showdown');
 const converter = new showdown.Converter();
+const timeAgo = require("node-time-ago")
 
 var store = require('./store');
 var db = require ('./db');
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
-app.use(session({secret: 'ssshhhhh'}));
+app.use(session({secret: 'ssshhhhh', resave: 'true', saveUninitialized: 'false'}));
 
 // View engine
 app.set('view engine', 'ejs');
@@ -28,7 +29,7 @@ var sess;
 function getSessionUser(sess){
   if (sess.user){
     console.log("Logged in")
-    return { user: {username: sess.user.username} };
+    return { sess_user: {username: sess.user.username} };
   }
   else {
     console.log("Not Logged in")
@@ -63,7 +64,7 @@ app.get('/',function(req,res){
 app.get('/recipes/:recipeName',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body, \
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body, recipes.created_date, \
                   users.username, favourites.recipe_id AS favourite_recipe, favourites.user_id AS favourite_user, \
                   categories.name AS category, recipes.cooking_time, recipes.calories \
                   FROM recipes INNER JOIN users ON recipes.user_id = users.user_id \
@@ -71,14 +72,19 @@ app.get('/recipes/:recipeName',function(req,res){
                   LEFT JOIN favourites ON recipes.recipe_id = favourites.recipe_id \
                   WHERE recipes.name=? COLLATE NOCASE",[req.params.recipeName])
   .then((recipe) => {
+    //console.log(recipe)
     params["recipe"] = recipe;
+    params["time_ago"] = timeAgo(recipe[0].created_date);
     params["method"] = converter.makeHtml(recipe[0].body);
+    console.log(params)
     db.conn.query("SELECT 1 FROM favourites WHERE user_id = ? AND recipe_id = ?", [sess.user.user_id, recipe[0].recipe_id])
   .then((favourite) => {
     params["favourite"] = (favourite.length > 0) ? true : false;
     res.render('pages/recipe_page', params );
   }) })
-  .catch(() => {
+  .catch((err) => {
+    //console.log("ERROR");
+    //console.log(err);
     res.render('pages/recipe_page', params );
   })
 });
@@ -97,21 +103,20 @@ app.get('/recipes',function(req,res){
   })
 });
 
-// User page
-// app.get('/user/:username',function(req,res){
-//   sess=req.session;
-//   var params = getSessionUser(sess);
-//   console.log(params);
-//   res.render('pages/user_page', params );
-//   //db.conn.query("username FROM users WHERE username = ?", [sess.user.username])
-//   // .then((recipe) => {
-//   //   params["user"] = recipe;
-//   //
-//   // })
-//   // .catch(() => {
-//   //   res.render('pages/recipes', params );
-//   // })
-// });
+//User page
+app.get('/user/:username',function(req,res){
+  sess=req.session;
+  var params = getSessionUser(sess);
+  db.conn.query("SELECT username FROM users WHERE username = ?", [req.params.username])
+  .then((user) => {
+    params["user"] = user;
+    res.render('pages/user_page', params );
+  })
+  .catch((err) => {
+    console.log(err)
+    res.render('pages/user_page', params );
+  })
+});
 
 //Favourites of the user
 app.get('/favourites',function(req,res){

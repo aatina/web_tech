@@ -16,7 +16,7 @@
 				</div>
 			<% } %> -->
 			<h1>Add a recipe</h1>
-			<% if (locals.user) { %>
+			<% if (locals.sess_user) { %>
       <form class="AddRecipe needs-validation" action="/addRecipe" method="POST">
 				<div class="form-group">
 					<label>Recipe Title</label>

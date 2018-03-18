@@ -34,10 +34,10 @@
       <input class="form-control mr-sm-2" type="text" placeholder="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
-    <% if (locals.user) { %>
+    <% if (locals.sess_user) { %>
       <ul class="navbar-nav login-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Welcome <%=user.username%>!</a>
+          <a class="nav-link" href="/user/<%=sess_user.username%>">Welcome <%=sess_user.username%>!</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/logout">Log Out</a>

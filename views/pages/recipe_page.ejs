@@ -36,11 +36,11 @@
 
 						<div class="recipe-title">
 							<h1><%= recipe[0].name %></h1>
-							<p>by <%= recipe[0].username %></p>
+							<p>by <%= recipe[0].username %> <%= time_ago %></p>
 						</div>
 
 						<div id="add-fave" class="add-fave">
-							<% if (locals.user) { %>
+							<% if (locals.sess_user) { %>
 								<% if (favourite) { %>
 								<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
 								<% } else { %>
@@ -78,6 +78,7 @@
 			<% include ../partials/footer %>
 		</footer>
 
+		<!-- <script src="jquery.timeago.js" type="text/javascript"></script> -->
 		<script>
 			$(document).ready(function(){
 				var cooking_time = <%= recipe[0].cooking_time%>
@@ -100,8 +101,9 @@
 	      					}
 				});
 	    });
-
+			jQuery(document).ready(function() {
+			  jQuery("time.timeago").timeago();
+			});
 		</script>
-
   </body>
 </html>
