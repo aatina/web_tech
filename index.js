@@ -28,7 +28,7 @@ var sess;
 function getSessionUser(sess){
   if (sess.user){
     console.log("Logged in")
-    return { username: sess.user.username };
+    return { user: {username: sess.user.username} };
   }
   else {
     console.log("Not Logged in")
@@ -36,7 +36,7 @@ function getSessionUser(sess){
   }
 }
 
-// GET requests
+// ** GET requests ** //
 app.get('/test', (req, res) => {
   sess=req.session;
   db.conn.query("SELECT username FROM users", function (err, result, fields) {
@@ -63,7 +63,7 @@ app.get('/',function(req,res){
 app.get('/recipes/:recipeName',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body,\
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body, \
                   users.username, favourites.recipe_id AS favourite_recipe, favourites.user_id AS favourite_user, \
                   categories.name AS category, recipes.cooking_time, recipes.calories \
                   FROM recipes INNER JOIN users ON recipes.user_id = users.user_id \
@@ -83,6 +83,7 @@ app.get('/recipes/:recipeName',function(req,res){
   })
 });
 
+// All recipes
 app.get('/recipes',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
@@ -96,6 +97,23 @@ app.get('/recipes',function(req,res){
   })
 });
 
+// User page
+// app.get('/user/:username',function(req,res){
+//   sess=req.session;
+//   var params = getSessionUser(sess);
+//   console.log(params);
+//   res.render('pages/user_page', params );
+//   //db.conn.query("username FROM users WHERE username = ?", [sess.user.username])
+//   // .then((recipe) => {
+//   //   params["user"] = recipe;
+//   //
+//   // })
+//   // .catch(() => {
+//   //   res.render('pages/recipes', params );
+//   // })
+// });
+
+//Favourites of the user
 app.get('/favourites',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
@@ -107,7 +125,6 @@ app.get('/favourites',function(req,res){
     ORDER BY favourites.time_added DESC", [sess.user.user_id])
     .then((recipe) => {
       params["recipe"] = recipe;
-      console.log(params.recipe);
       res.render('pages/favourites', params );
     })
     .catch(() => {
@@ -119,7 +136,7 @@ app.get('/favourites',function(req,res){
   }
 });
 
-// Add recipies
+// Add new recipe
 app.get('/add_recipe',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
@@ -128,12 +145,32 @@ app.get('/add_recipe',function(req,res){
     params["category"] = categories;
     res.render('pages/add_recipe', params );
   })
-  .catch(() => {
+  .catch((error) => {
+    params["error"] = error;
     res.render('pages/add_recipe', params );
   })
 });
 
-// Only shows when logged out
+// Login page - Only shows when logged out
+app.get('/login',function(req,res){
+  sess=req.session;
+  var params = {};
+  console.log(sess);
+  if(sess.user){
+    res.redirect("/");
+  } else {
+    if(sess.login_error){
+      params["error"] = sess.login_error;
+      delete sess.login_error;
+      res.render('pages/login', params);
+    }
+    else{
+      res.render('pages/login', params);
+    }
+  }
+});
+
+// Sign up page - Only shows when logged out
 app.get('/signup',function(req,res){
   sess=req.session;
   if(sess.user){
@@ -143,16 +180,7 @@ app.get('/signup',function(req,res){
   }
 });
 
-// Only shows when logged out
-app.get('/login',function(req,res){
-  sess=req.session;
-  if(sess.user){
-    res.redirect("/");
-  } else {
-    res.render('pages/login');
-  }
-});
-
+// Logout
 app.get('/logout',function(req,res){
   req.session.destroy(function(err) {
     if(err) {
@@ -163,7 +191,9 @@ app.get('/logout',function(req,res){
   });
 });
 
-//POST requests
+// ** POST requests ** //
+
+// Create a new user
 app.post('/createUser', (req, res) => {
   sess=req.session;
   store.createUser({
@@ -181,6 +211,8 @@ app.post('/createUser', (req, res) => {
     })
 });
 
+
+// Create a new recipe - only if logged in
 app.post('/addRecipe', (req, res) => {
   sess=req.session;
   if(sess.user){
@@ -189,6 +221,7 @@ app.post('/addRecipe', (req, res) => {
         body: req.body.recipe.body,
         category_id: req.body.recipe.category_id,
         cooking_time: req.body.recipe.cooking_time,
+        calories: req.body.recipe.calories,
         user: sess.user.user_id
       })
       .then(() => {
@@ -198,6 +231,7 @@ app.post('/addRecipe', (req, res) => {
       .catch((err) => {
         console.log("Error adding recipe " + req.body.recipe.name + " by " + sess.user.username);
         console.log(err);
+        //sess.add_recipe_error = "";
         res.redirect("/add_recipe");
       })
     } else {
@@ -248,6 +282,7 @@ app.post('/login', (req, res) => {
   })
   .catch(() => {
     console.log("Invalid credentials")
+    sess.login_error = "Invalid credentials";
     res.redirect("/login")
   })
 });

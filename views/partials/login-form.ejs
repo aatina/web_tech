@@ -1,5 +1,10 @@
 <div class="account-form">
   <form class="Login col-sm-4" action="/login" method="POST">
+    <% if(locals.error){ %>
+      <div class = "error-message">
+        <%= error %>
+      </div>
+    <% } %>
     <h1>Log In</h1>
     <div class="form-group">
       <!-- <label class="col-sm-1">Username</label> -->

@@ -53,7 +53,7 @@
 }
 #recipe-page .banner #recipe-summary span {
   font-weight: bolder;
-  color: #6BA292;
+  color: #00bf75;
 }
 #recipe-page .add-fave {
   font-size: 16px;
@@ -82,6 +82,14 @@
 .account-page p {
   text-align: center;
 }
+.error-message {
+  color: red;
+  padding: 10px;
+  background-color: #FFC4C4;
+  border: red 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+}
 .slider {
   -webkit-appearance: none;
   width: 100%;
@@ -109,6 +117,9 @@
   background: #4CAF50;
   cursor: pointer;
 }
+body {
+  background-color: #F8F8F8;
+}
 p {
   color: #635255;
 }
@@ -134,7 +145,7 @@ p {
   text-shadow: -2px 2px rgba(0, 0, 0, 0.5);
 }
 .content-wrapper {
-  background: #BCD8B7;
+  background: white;
   height: 100%;
 }
 .content-wrapper h2 {
@@ -143,7 +154,7 @@ p {
 .navbar {
   margin: 0;
   border-radius: 0;
-  background-color: #6BA292;
+  background-color: #604343;
   padding: 0px 15px;
 }
 .navbar ul {
@@ -161,11 +172,11 @@ p {
   text-decoration: none;
 }
 .navbar ul li:hover {
-  background-color: #78AA9B;
-  border-bottom: #796B68 3px solid;
+  background-color: #7f5152;
+  border-bottom: #00bf75 3px solid;
 }
 .navbar .dropdown-menu a {
-  color: #6BA292;
+  color: #604343;
   display: block;
   text-align: center;
   -webkit-transition: background-color 0.2s, color 0.15s;
@@ -173,7 +184,7 @@ p {
   transition: background-color 0.2s, color 0.15s;
 }
 .navbar .dropdown-menu a:hover {
-  background-color: #78AA9B;
+  background-color: #7f5152;
   color: white;
 }
 .navbar .login-nav {

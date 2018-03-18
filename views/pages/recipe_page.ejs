@@ -40,7 +40,7 @@
 						</div>
 
 						<div id="add-fave" class="add-fave">
-							<% if (locals.username) { %>
+							<% if (locals.user) { %>
 								<% if (favourite) { %>
 								<i id="fave-star" class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
 								<% } else { %>
@@ -79,7 +79,6 @@
 		</footer>
 
 		<script>
-			//var cooking_time = $('#cooking_time').text();
 			$(document).ready(function(){
 				var cooking_time = <%= recipe[0].cooking_time%>
 				console.log("cooking_time: " + cooking_time)

@@ -2,19 +2,24 @@
 @import "recipes_view"; // all the recipes in a block
 @import "recipe_page"; // indiviual recipe pages
 @import "recipe_page";
-@import "login";
+@import "form";
 @import "add_recipe";
 
 @background-color: #f4f4f4;
 @text-color: pink;
 @navbar-color: orange;
 
-@content: #BCD8B7;
+@content: #cea852;
 @dark-color: #796B68;
-@navbar-hover: #78AA9B;
-@navbar: #6BA292;
-//@rose: #F95C71;
+@navbar-hover: #7f5152;
+@navbar: 	#604343;
+@green: #00bf75;
 @text: #635255;
+@error: #FFC4C4;
+
+body{
+	background-color: #F8F8F8;
+}
 
 p{
 	color: @text;
@@ -42,7 +47,7 @@ p{
 	}
 }
 .content-wrapper{
-	background: @content;
+	background: white;
 	height: 100%;
 	h2{
 		color: @text;

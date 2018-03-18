@@ -31,21 +31,29 @@ module.exports = {
       console.log(`Authenticating user ${username}`);
       db.conn.query("SELECT * FROM users WHERE username = ? ", [username])
       .then( user => {
-        // do something with the result
-        const { hash }  = saltHashPassword({ password, salt: user[0].salt })
-        if(hash === user[0].password) {
-          resolve( user[0] ); // Valid credentials
-        }else{
-          reject( ); // Invalid credentials
+        if(user.length > 0){
+          // do something with the result
+          const { hash }  = saltHashPassword({ password, salt: user[0].salt })
+          if(hash === user[0].password) {
+            resolve( user[0] ); // Valid credentials
+          }else{
+            reject( ); // Invalid credentials
+          }
         }
-      });
+        else{
+          reject(); // Invalid credentials
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
     });
   },
-  addRecipe({name, body, user, category_id, cooking_time}){
+  addRecipe({name, body, user, category_id, cooking_time, calories}){
     return new Promise( ( resolve, reject ) => {
       console.log(`Adding recipe ${name}`);
       //console.log(`Cooking time: cooking_time`);
-      db.conn.query("INSERT INTO recipes (name, body, user_id, category_id, cooking_time) VALUES (?,?,?,?,?)", [name, body, user, category_id, cooking_time])
+      db.conn.query("INSERT INTO recipes (name, body, user_id, category_id, cooking_time, calories) VALUES (?,?,?,?,?,?)", [name, body, user, category_id, cooking_time, calories])
       return resolve();
     })
   },
