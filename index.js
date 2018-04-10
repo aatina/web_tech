@@ -226,7 +226,10 @@ app.post('/createUser', (req, res) => {
   store.createUser({
       username: req.body.user.username,
       password: req.body.user.password,
-      email: req.body.user.email
+      email: req.body.user.email,
+      birthday: req.body.user.birthday,
+      location: req.body.user.location,
+      about: req.body.user.about
     })
     .then(() => {
       console.log("User Created");

@@ -160,6 +160,10 @@
   border-radius: 5px;
   margin-top: 10px;
 }
+.sign-up-button {
+  background-image: none!important;
+  border: none!important;
+}
 .slider {
   -webkit-appearance: none;
   width: 100%;

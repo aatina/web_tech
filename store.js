@@ -8,7 +8,7 @@ const db = require('./db')
 
 module.exports = {
 
-  createUser ({ username, password, email } ){
+  createUser ({ username, password, email, birthday, location, about } ){
     return new Promise( ( resolve, reject ) => {
       const { salt, hash } = saltHashPassword( { password } )
       //console.log([username, hash, salt])
@@ -20,7 +20,7 @@ module.exports = {
         }
         else{
           console.log("adding user")
-          db.conn.query("INSERT INTO users (username, password, salt, email) VALUES (?,?,?,?)", [username, hash, salt, email])
+          db.conn.query("INSERT INTO users (username, password, salt, email, birthday, location, about) VALUES (?,?,?,?,?,?,?)", [username, hash, salt, email, birthday, location, about])
           return resolve();
         }
       })
