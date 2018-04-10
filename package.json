@@ -16,6 +16,7 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "infinite-scroll": "^3.0.3",
     "less": "^2.7.3",
     "less-watch-compiler": "^1.11.0",
     "mysql": "^2.15.0",

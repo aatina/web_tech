@@ -13,15 +13,19 @@
 
     <div class="container content-wrapper">
 			<h2>Recently added recipes</h2>
-			<% include ../partials/recipes_view %>
 			<p>
 				<a href = "/add_recipe"> Add a new recipe! </a>
 			</p>
+			<% include ../partials/recipes_view %>
+			<div id="scroll-loader" class="loader"></div>
+
     </div>
 
 		<footer>
 			<% include ../partials/footer %>
 		</footer>
+
+		<script src="infinite_scroll.js"  type="text/javascript"></script>
 
   </body>
 </html>

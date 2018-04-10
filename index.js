@@ -93,7 +93,7 @@ app.get('/recipes/:recipeName',function(req,res){
 app.get('/recipes',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC")
+  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT 6")
   .then((recipe) => {
     params["recipe"] = recipe;
     res.render('pages/recipes', params );
@@ -332,6 +332,19 @@ app.post('/usernameTaken', (req, res) => {
   })
   .catch(() => {
     res.send('-1');
+  })
+});
+
+// Get more recipes for infinite scroll
+app.get('/getRecipes', (req, res) => {
+  // Check if username is taken
+  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT ? OFFSET ? ",[req.query.limit, req.query.offset])
+  .then((recipe) => {
+    console.log(recipe.length);
+    res.send(recipe)
+  })
+  .catch((err) => {
+    res.send(err);
   })
 });
 

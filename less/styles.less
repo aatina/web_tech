@@ -60,3 +60,23 @@ button{
 	background-color: @secondary-color !important;
 	color: white !important;
 }
+
+.loader {
+  position: fixed;
+  left: 55%;
+  top: 90%;
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  margin: -75px 0 0 -75px;
+  border: 10px solid @content;
+  border-radius: 50%;
+  border-top: 10px solid @secondary-color;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
