@@ -117,6 +117,14 @@
   background: #4CAF50;
   cursor: pointer;
 }
+.user-details .user-username {
+  color: #00bf75;
+  font-style: bold;
+  font-size: 36px;
+}
+.no-info {
+  font-style: italic;
+}
 body {
   background-color: #F8F8F8;
 }
@@ -150,6 +158,10 @@ p {
 }
 .content-wrapper h2 {
   color: #635255;
+}
+button {
+  background-color: #00bf75 !important;
+  color: white !important;
 }
 .navbar {
   margin: 0;
@@ -214,4 +226,10 @@ p {
   border-bottom: 6px solid #ffffff;
   border-left: 6px solid transparent;
   content: '';
+}
+.logo-wrapper {
+  float: left;
+}
+.logo-wrapper img {
+  width: 70px;
 }

@@ -107,10 +107,25 @@ app.get('/recipes',function(req,res){
 app.get('/user/:username',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT username FROM users WHERE username = ?", [req.params.username])
+  db.conn.query("SELECT * FROM users WHERE username = ?", [req.params.username])
   .then((user) => {
     params["user"] = user;
-    res.render('pages/user_page', params );
+    params["time_ago"] = timeAgo(user[0].member_since);
+    console.log(user[0].user_id);
+    db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE users.user_id = ? ORDER BY created_date DESC LIMIT 4", [user[0].user_id])
+    .then((recipe) => {
+      params["recipe"] = recipe;
+      // // maybe not best way?
+      // for (var i = 0; i < recipe.length; i++) {
+      //   params["recipe"][i].username = user[0].username;
+      // }
+      console.log(params)
+      res.render('pages/user_page', params );
+    })
+    .catch((err) => {
+      console.log(err)
+      res.render('pages/user_page', params );
+    })
   })
   .catch((err) => {
     console.log(err)

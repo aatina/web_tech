@@ -11,10 +11,50 @@
     </header>
 
 
-    <div>
-      <div class="img-wrapper"></div>
-			<p><%- user[0].username %></p>
-			<a href = "\edit_user">Edit your profile</a>
+    <div class="container">
+			<% if (locals.sess_user && locals.sess_user.username == user[0].username) { %>
+				<a href="\edit_user">Edit your profile</a>
+			<% } %>
+			<div class="row">
+				<div class="col-sm-4 user-avatar-wrapper">
+					<img class ="user-avatar" src="<%- user[0].avatar_url %>">
+				</div>
+				<div class="col-sm-6 user-details">
+					<p class="user-username"><%- user[0].username %></p>
+
+					<% if (user[0].location) { %>
+						<p><%- user[0].location %></p>
+					<% } else { %>
+						<p class="no-info"> No location info added </p>
+					<% } %>
+					<% if (user[0].birthday) { %>
+						<p><%- user[0].birthday %></p>
+					<% } else { %>
+						<p class="no-info"> No birthday added </p>
+					<% } %>
+					<!-- Sqlite3 time is an hour behind -->
+					<p class="user-member-since"><%= time_ago %></p>
+				</div>
+			</div>
+
+			<div class = "row user-about">
+				<h3> About me </h3>
+				<% if (user[0].about) { %>
+					<p><%- user[0].about %></p>
+				<% } else { %>
+					<p class="no-info"> No bio added </p>
+				<% } %>
+			</div>
+
+			<div class = "row user-recipes">
+				<h3> <%- user[0].username %>'s recipes </h3>
+				<% if (recipe) { %>
+					<% include ../partials/recipes_view %>
+					<!-- TODO: current limit 4, add ajax query to show all-->
+				<% } else { %>
+					<p class="no-info"> No recipes uploaded </p>
+				<% } %>
+			</div>
     </div>
 
 
