@@ -62,6 +62,12 @@
   border-left: 6px solid transparent;
   content: '';
 }
+.logo-wrapper {
+  float: left;
+}
+.logo-wrapper img {
+  width: 70px;
+}
 .recipe-block ul {
   list-style: none;
 }
