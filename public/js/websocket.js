@@ -103,8 +103,9 @@ $(function () {
   });
 
   function addMessage(author, avatar, message, dt) {
-    content.append( '<div class="chat-msg"> <img class ="chat-image" src=' + avatar + '>'
-        + author + '</span> @ ' + (dt.getHours() < 10 ? '0'
+    content.append( '<a href="/user/' + author + '"><div class="chat-msg"> '
+        + '<img class ="chat-image" src=' + avatar + '><span>'
+        + author + '</span></a> @ ' + (dt.getHours() < 10 ? '0'
         + dt.getHours() : dt.getHours()) + ':'
         + (dt.getMinutes() < 10
           ? '0' + dt.getMinutes() : dt.getMinutes())

@@ -47,7 +47,7 @@ app.ws('/echo', function(ws, req) {
     var user_id = sess.user.user_id;
     var username = sess.user.username;
     var user_avatar = sess.user.avatar_url;
-    
+
     if(history.length > 0){
       ws.send( JSON.stringify({ type: 'history', data: history}) )
     }
@@ -273,13 +273,6 @@ app.get('/logout',function(req,res){
       res.redirect('/');
     }
   });
-});
-
-// Chatbox
-app.get('/chatbox',function(req,res){
-  sess=req.session;
-  var params = getSessionUser(sess);
-  res.render('pages/chatbox', params)
 });
 
 // ** POST requests ** //
