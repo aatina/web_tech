@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const showdown  = require('showdown');
 const converter = new showdown.Converter();
 const timeAgo = require("node-time-ago")
+const expressWs = require('express-ws')(app);
 
 var store = require('./store');
 var db = require ('./db');
@@ -23,7 +24,66 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.set('case sensitive routing', false);
 
+app.listen(3000, () => console.log('Example app listening on port 3000!'));
+
 var sess;
+
+//***** WEBSOCKET *****//
+
+var aWss = expressWs.getWss('/');
+
+// latest 100 messages
+var history = [ ];
+
+//helper function for escaping input strings
+function htmlEntities(str) {
+  return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+app.ws('/echo', function(ws, req) {
+  if (sess.user){
+    var user_id = sess.user.user_id;
+    var username = sess.user.username;
+    var user_avatar = sess.user.avatar_url;
+    
+    if(history.length > 0){
+      ws.send( JSON.stringify({ type: 'history', data: history}) )
+    }
+  }
+  else {
+    ws.send("-1")
+  }
+
+  ws.on('message', function(message) {
+    console.log((new Date()) + ' Received Message from ' + username + ': ' + message);
+
+    // Message data
+    var obj = {
+      time: (new Date()).getTime(),
+      text: htmlEntities(message),
+      author: username,
+      avatar: user_avatar
+    };
+
+    //store message data
+    history.push(obj);
+    history = history.slice(-100);
+
+    // Broadcast message to all users
+    var json = JSON.stringify({ type:'message', data: obj });
+    aWss.clients.forEach(function (client) {
+      client.send(json);
+    });
+
+  });
+  ws.on('close', function() {
+    if (username !== false) {
+      console.log("connection closed");
+    }
+  });
+});
 
 // For now just returns username, but can be changed to get full user
 function getSessionUser(sess){
@@ -112,13 +172,10 @@ app.get('/user/:username',function(req,res){
     params["user"] = user;
     params["time_ago"] = timeAgo(user[0].member_since);
     console.log(user[0].user_id);
-    db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE users.user_id = ? ORDER BY created_date DESC LIMIT 4", [user[0].user_id])
+    // TODO: to limit or not to limit?
+    db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE users.user_id = ? ORDER BY created_date DESC ", [user[0].user_id])
     .then((recipe) => {
       params["recipe"] = recipe;
-      // // maybe not best way?
-      // for (var i = 0; i < recipe.length; i++) {
-      //   params["recipe"][i].username = user[0].username;
-      // }
       console.log(params)
       res.render('pages/user_page', params );
     })
@@ -216,6 +273,13 @@ app.get('/logout',function(req,res){
       res.redirect('/');
     }
   });
+});
+
+// Chatbox
+app.get('/chatbox',function(req,res){
+  sess=req.session;
+  var params = getSessionUser(sess);
+  res.render('pages/chatbox', params)
 });
 
 // ** POST requests ** //
@@ -347,5 +411,3 @@ app.get('/getRecipes', (req, res) => {
     res.send(err);
   })
 });
-
-app.listen(3000, () => console.log('Example app listening on port 3000!'));

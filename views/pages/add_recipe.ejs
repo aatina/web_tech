@@ -66,27 +66,28 @@
 				<p> Please <a href = "/login">log in</a> to add a recipe </p>
 			<% } %>
     </div>
+
+		<footer>
+	    <% include ../partials/footer %>
+	  </footer>
+
+		<script>
+			var slider = document.getElementById("cooking_time");
+			var output = document.getElementById("slider-output");
+
+			var hours = Math.floor(slider.value/60);
+			var minutes = slider.value % 60;
+			output.innerHTML = hours + " hours " + minutes + " minutes.";
+
+			// Update the current slider value (each time you drag the slider handle)
+			slider.oninput = function() {
+				var hours = Math.floor(this.value/60);
+				var minutes = this.value % 60;
+			  output.innerHTML = hours + " hours " + minutes + " minutes.";
+				//output.innerHTML = this.value ;
+			}
+		</script>
+
   </body>
-
-  <footer>
-    <% include ../partials/footer %>
-  </footer>
-
-	<script>
-		var slider = document.getElementById("cooking_time");
-		var output = document.getElementById("slider-output");
-
-		var hours = Math.floor(slider.value/60);
-		var minutes = slider.value % 60;
-		output.innerHTML = hours + " hours " + minutes + " minutes.";
-
-		// Update the current slider value (each time you drag the slider handle)
-		slider.oninput = function() {
-			var hours = Math.floor(this.value/60);
-			var minutes = this.value % 60;
-		  output.innerHTML = hours + " hours " + minutes + " minutes.";
-			//output.innerHTML = this.value ;
-		}
-	</script>
 
 </html>

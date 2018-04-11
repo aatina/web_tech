@@ -17,8 +17,8 @@
    inkscape:version="0.91 r13725"
    sodipodi:docname="favicon.svg"
    inkscape:export-filename="/Users/aatina/year_3/web_tech/public/images/favicon.png"
-   inkscape:export-xdpi="3.2"
-   inkscape:export-ydpi="3.2">
+   inkscape:export-xdpi="3.2209132"
+   inkscape:export-ydpi="3.2209132">
   <defs
      id="defs4519">
     <inkscape:path-effect
@@ -74,15 +74,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="319.85779"
+     inkscape:cx="1.85779"
      inkscape:cy="172.38062"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1386"
      inkscape:window-height="794"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-x="50"
+     inkscape:window-y="643"
      inkscape:window-maximized="0"
      units="px"
      inkscape:object-paths="false"
@@ -101,7 +101,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -116,13 +116,13 @@
        id="path4615"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#ff8080;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#00bf75;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="m 405.76885,674.23503 c -188.93942,20.37927 -209.49589,1.08733 -323.979617,10.00955 -29.849369,3.51169 9.610707,182.90048 30.680847,202.21478 21.07015,19.3143 227.63028,14.5625 245.18873,5.66244 38.66489,-19.5985 90.38812,-218.56869 48.11004,-217.88677 z"
        id="path4567"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccssc" />
     <path
-       style="fill:#d35f5f;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#008752;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="m 390.24533,745.09931 c 0,0 -63.30516,113.17274 -112.98285,127.88172 -46.56596,13.78764 55.90229,1.15823 65.8032,4.96627 0,0 67.04479,-67.04477 47.17965,-132.84799 z"
        id="path5163"
        inkscape:connector-curvature="0"
@@ -192,7 +192,7 @@
        id="path5545"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#ff8080;fill-rule:evenodd;stroke:none;stroke-width:1.28066885px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#00bf75;fill-rule:evenodd;stroke:none;stroke-width:1.28066885px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="m 93.021998,704.49688 c 0,0 -71.564702,-1.66755 -72.865879,31.6833 -1.301176,33.35086 67.661174,-28.34822 70.263526,23.3456 2.602353,51.69384 -1.301175,-53.36135 -1.301175,-53.36135"
        id="path4178"
        inkscape:connector-curvature="0" />
@@ -200,7 +200,7 @@
        inkscape:connector-curvature="0"
        id="path4180"
        d="m 382.02262,701.24831 c 0,0 69.71021,-26.38218 83.72508,9.65333 14.01487,36.03551 -77.33535,-7.79118 -60.15288,49.64898 17.18247,57.44015 -19.0983,-58.81774 -19.0983,-58.81774"
-       style="fill:#ff8080;fill-rule:evenodd;stroke:none;stroke-width:1.28066885px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:#00bf75;fill-rule:evenodd;stroke:none;stroke-width:1.28066885px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
     <path
        style="fill:#999999"
        d="m 228.11321,663.24473 c -7.36275,-3.57876 -15.93979,-11.45381 -18.99291,-17.43844 -4.84426,-9.49551 -5.49168,-20.38844 -1.84224,-30.99572 2.70848,-7.87234 5.5967,-12.0841 11.94833,-17.42372 7.09297,-5.96284 10.84752,-10.48579 14.20541,-17.11267 10.15653,-20.04408 4.51988,-39.36381 -13.3624,-45.79986 l -4.5411,-1.6344 4.83304,-0.0313 c 7.44273,-0.0482 13.40529,2.10812 18.18076,6.57501 5.86073,5.48203 8.02664,10.8997 8.48554,21.22517 0.71647,16.12097 -3.81732,27.36362 -16.20972,40.19605 -10.9682,11.35766 -15.5111,21.37151 -14.63678,32.26369 0.5626,7.00881 3.84647,13.11757 12.80592,23.82197 9.22259,11.01879 9.19127,11.24651 -0.87385,6.35423 z"

@@ -1,0 +1,61 @@
+@import "styles";
+
+#chatbox{
+  position: fixed;
+  bottom: -215px;
+  right: 0%;
+  z-index: 100;
+  background-color: white;
+  border: gray 2px solid;
+  padding: 5px;
+  #chat-head{
+    background-color: @navbar;
+    width: 400px;
+    height: 35px;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+    span{
+      color: white;
+      font-weight: bold;
+    }
+  }
+  #content {
+    padding:5px;
+    background:rgb(248, 248, 248);
+    border-radius:5px;
+    overflow-y: scroll;
+    border:1px solid #CCC;
+    margin-top:10px;
+    height: 160px;
+    width:400px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .chat-input{
+    margin: 0 auto;
+    margin: 0 auto;
+    width: 400px;
+    #input {
+      border-radius:2px;
+      border:1px solid #ccc;
+      margin-top:10px;
+      padding:5px;
+      width:300px;
+      float: right;
+    }
+    #status {
+      width:88px;
+      display:block;
+      float:left;
+      margin-top:15px;
+    }
+  }
+  .chat-msg{
+    margin: 0 5px;
+    .chat-image{
+      height: 25px;
+      margin: 0 3px;
+    }
+  }
+}

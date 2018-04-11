@@ -8,10 +8,9 @@ const db = require('./db')
 
 module.exports = {
 
-  createUser ({ username, password, email, birthday, location, about } ){
+  createUser ({ username, password, email, avatar_url, birthday, location, about } ){
     return new Promise( ( resolve, reject ) => {
       const { salt, hash } = saltHashPassword( { password } )
-      //console.log([username, hash, salt])
       db.conn.query(" SELECT username, email FROM users WHERE username = ? OR email = ? ", [username, email])
       .then (user => {
         if(user.length != 0){ //Username or email taken
@@ -20,7 +19,8 @@ module.exports = {
         }
         else{
           console.log("adding user")
-          db.conn.query("INSERT INTO users (username, password, salt, email, birthday, location, about) VALUES (?,?,?,?,?,?,?)", [username, hash, salt, email, birthday, location, about])
+          avatar_url = iconString(email)
+          db.conn.query("INSERT INTO users (username, password, salt, email, avatar_url, birthday, location, about) VALUES (?,?,?,?,?,?,?,?)", [username, hash, salt, email, avatar_url, birthday, location, about])
           return resolve();
         }
       })
@@ -81,4 +81,8 @@ function saltHashPassword ( { password, salt = randomString() } ) {
 }
 function randomString () {
   return crypto.randomBytes(4).toString('hex')
+}
+function iconString(email){
+  const hashString = crypto.createHash('md5').update(email).digest("hex");
+  return hashString
 }

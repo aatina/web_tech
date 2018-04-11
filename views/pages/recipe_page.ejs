@@ -36,7 +36,7 @@
 
 						<div class="recipe-title">
 							<h1><%= recipe[0].name %></h1>
-							<p>by <%= recipe[0].username %> <%= time_ago %></p>
+							<p>by <a href="/user/<%= recipe[0].username %>"><%= recipe[0].username %> </a> <%= time_ago %></p>
 						</div>
 
 						<div id="add-fave" class="add-fave">

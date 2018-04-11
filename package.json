@@ -11,18 +11,18 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "alertifyjs": "^1.11.0",
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
-    "infinite-scroll": "^3.0.3",
+    "express-ws": "^3.0.0",
     "less": "^2.7.3",
     "less-watch-compiler": "^1.11.0",
     "mysql": "^2.15.0",
     "node-time-ago": "^1.0.0",
     "nodemon": "^1.14.12",
     "showdown": "^1.8.6",
-    "sqlite3": "^3.1.13"
+    "sqlite3": "^3.1.13",
+    "ws": "^5.1.1"
   }
 }
