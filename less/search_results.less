@@ -1,0 +1,62 @@
+@import "styles";
+
+
+.search-category{
+  margin-left: 30px;
+  margin-bottom: 40px;
+  p{
+    color: @secondary-color;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p:hover{
+    color: #09e88b;
+  }
+  a{
+    text-decoration: none;
+  }
+}
+
+.search-recipe{
+  margin-bottom: 40px;
+  h3{
+    margin-left: 45px;
+  }
+}
+
+.search-user{
+  margin-bottom: 40px;
+  a{
+    text-decoration: none;
+  }
+  .search-user-avatar{
+    display: inline-block;
+    border-radius: 50%;
+    height: 150px;
+    margin: 15px;
+  }
+  .search-user-avatar:hover{
+    -ms-animation:wiggle .3s 2;
+    -moz-animation:wiggle .3s 2;
+    -webkit-animation:wiggle .3s 2;
+    animation:wiggle .3s 2;
+  }
+  .search-user-name{
+    display: inline-block;
+    margin: 15px;
+    p{
+      color: @secondary-color;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    p:hover{
+      color: #09e88b;
+    }
+  }
+}
+
+// WIGGLE ANIMATION
+@-ms-keyframes wiggle{0%{-ms-transform:rotate(3deg);}50%{-ms-transform:rotate(-3deg);}100%{-ms-transform:rotate(3deg);}}
+@-moz-keyframes wiggle{0%{-moz-transform:rotate(3deg);}50%{-moz-transform:rotate(-3deg);}100%{-moz-transform:rotate(3deg);}}
+@-webkit-keyframes wiggle{0%{-webkit-transform:rotate(3deg);}50%{-webkit-transform:rotate(-3deg);}100%{-webkit-transform:rotate(3deg);}}
+@keyframes wiggle{0%{transform:rotate(3deg);}50%{transform:rotate(-3deg);}100%{transform:rotate(3deg);}}

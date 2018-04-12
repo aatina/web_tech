@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <% include ../partials/head %>
+	</head>
+
+  <body>
+
+		<header>
+			<% include ../partials/header %>
+		</header>
+
+		<div class="content-wrapper container">
+      <% if (recipe.length > 0 ) { %>
+  			<h2 class="capitalize"><%- recipe[0].category %></h2>
+        <% include ../partials/recipes_view %>
+      <% } else{ %>
+        <br>
+        <h4> No recipes of this type available! </h4>
+        <p> View <a href="/recipes">all recipes</a>? </p>
+      <% } %>
+		</div>
+
+		<% include ../partials/chatbox %>
+
+		<footer>
+			<% include ../partials/footer %>
+		</footer>
+
+  </body>
+
+</html>

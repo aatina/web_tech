@@ -37,7 +37,7 @@
 .navbar .login-nav {
   float: right;
 }
-.navbar .search-form {
+.navbar #search-form {
   float: right;
   margin: 15px;
 }
@@ -160,6 +160,17 @@
   border-radius: 5px;
   margin-top: 10px;
 }
+.success-message {
+  color: green;
+  padding: 10px;
+  background-color: #b1fcb0;
+  border: green 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+#error {
+  display: none;
+}
 .sign-up-button {
   background-image: none!important;
   border: none!important;
@@ -260,6 +271,101 @@
   height: 25px;
   margin: 0 3px;
 }
+.search-category {
+  margin-left: 30px;
+  margin-bottom: 40px;
+}
+.search-category p {
+  color: #00bf75;
+  font-weight: 700;
+  font-size: 20px;
+}
+.search-category p:hover {
+  color: #09e88b;
+}
+.search-category a {
+  text-decoration: none;
+}
+.search-recipe {
+  margin-bottom: 40px;
+}
+.search-recipe h3 {
+  margin-left: 45px;
+}
+.search-user {
+  margin-bottom: 40px;
+}
+.search-user a {
+  text-decoration: none;
+}
+.search-user .search-user-avatar {
+  display: inline-block;
+  border-radius: 50%;
+  height: 150px;
+  margin: 15px;
+}
+.search-user .search-user-avatar:hover {
+  -ms-animation: wiggle .3s 2;
+  -moz-animation: wiggle .3s 2;
+  -webkit-animation: wiggle .3s 2;
+  animation: wiggle .3s 2;
+}
+.search-user .search-user-name {
+  display: inline-block;
+  margin: 15px;
+}
+.search-user .search-user-name p {
+  color: #00bf75;
+  font-size: 20px;
+  font-weight: 700;
+}
+.search-user .search-user-name p:hover {
+  color: #09e88b;
+}
+@-ms-keyframes wiggle {
+  0% {
+    -ms-transform: rotate(3deg);
+  }
+  50% {
+    -ms-transform: rotate(-3deg);
+  }
+  100% {
+    -ms-transform: rotate(3deg);
+  }
+}
+@-moz-keyframes wiggle {
+  0% {
+    -moz-transform: rotate(3deg);
+  }
+  50% {
+    -moz-transform: rotate(-3deg);
+  }
+  100% {
+    -moz-transform: rotate(3deg);
+  }
+}
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(3deg);
+  }
+  50% {
+    -webkit-transform: rotate(-3deg);
+  }
+  100% {
+    -webkit-transform: rotate(3deg);
+  }
+}
+@keyframes wiggle {
+  0% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
+}
 body {
   background-color: #F8F8F8;
 }
@@ -311,6 +417,9 @@ button {
   border-top: 10px solid #00bf75;
   -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
+}
+.capitalize {
+  text-transform: capitalize;
 }
 @keyframes spin {
   0% {

@@ -6,6 +6,7 @@
 @import "add_recipe";
 @import "user_page";
 @import "chatbox";
+@import "search_results";
 @import "styles";
 
 @background-color: #f4f4f4;
@@ -17,6 +18,7 @@
 @secondary-color: #00bf75;
 @text: #635255;
 @error: #FFC4C4;
+@success: #b1fcb0;
 
 body{
 	background-color: #F8F8F8;
@@ -73,6 +75,10 @@ button{
   border-top: 10px solid @secondary-color;
   -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
+}
+
+.capitalize{
+	text-transform: capitalize;
 }
 
 @keyframes spin {

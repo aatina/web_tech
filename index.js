@@ -10,6 +10,7 @@ const expressWs = require('express-ws')(app);
 
 var store = require('./store');
 var db = require ('./db');
+var search = require ('./search');
 
 //For css and other objects that need to be served to visitors
 app.use(express.static(path.join(__dirname, 'public')));
@@ -110,7 +111,9 @@ app.get('/test', (req, res) => {
 app.get('/',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT 6")
+  db.conn.query("SELECT recipes.name, recipes.recipe_id, recipes.image_url, \
+  users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id \
+  ORDER BY created_date DESC LIMIT 6")
   .then((recipe) => {
     params["recipe"] = recipe;
     res.render('pages/index', params );
@@ -121,7 +124,7 @@ app.get('/',function(req,res){
 });
 
 //Singular Recipe page
-app.get('/recipes/:recipeName',function(req,res){
+app.get('/recipes/:recipe_id',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
   db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body, recipes.created_date, \
@@ -130,13 +133,14 @@ app.get('/recipes/:recipeName',function(req,res){
                   FROM recipes INNER JOIN users ON recipes.user_id = users.user_id \
                   INNER JOIN categories ON recipes.category_id = categories.id \
                   LEFT JOIN favourites ON recipes.recipe_id = favourites.recipe_id \
-                  WHERE recipes.name=? COLLATE NOCASE",[req.params.recipeName])
+                  WHERE recipes.recipe_id=? COLLATE NOCASE",[req.params.recipe_id])
   .then((recipe) => {
-    //console.log(recipe)
+    console.log(recipe)
     params["recipe"] = recipe;
     params["time_ago"] = timeAgo(recipe[0].created_date);
     params["method"] = converter.makeHtml(recipe[0].body);
     console.log(params)
+    // throws error when no sess.user
     db.conn.query("SELECT 1 FROM favourites WHERE user_id = ? AND recipe_id = ?", [sess.user.user_id, recipe[0].recipe_id])
   .then((favourite) => {
     params["favourite"] = (favourite.length > 0) ? true : false;
@@ -144,7 +148,7 @@ app.get('/recipes/:recipeName',function(req,res){
   }) })
   .catch((err) => {
     //console.log("ERROR");
-    //console.log(err);
+    console.log(err);
     res.render('pages/recipe_page', params );
   })
 });
@@ -153,7 +157,10 @@ app.get('/recipes/:recipeName',function(req,res){
 app.get('/recipes',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT 6")
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, \
+  recipes.image_url, users.username FROM users \
+  INNER JOIN recipes ON recipes.user_id = users.user_id \
+  ORDER BY created_date DESC LIMIT 6")
   .then((recipe) => {
     params["recipe"] = recipe;
     res.render('pages/recipes', params );
@@ -173,7 +180,9 @@ app.get('/user/:username',function(req,res){
     params["time_ago"] = timeAgo(user[0].member_since);
     console.log(user[0].user_id);
     // TODO: to limit or not to limit?
-    db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id WHERE users.user_id = ? ORDER BY created_date DESC ", [user[0].user_id])
+    db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+    users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id \
+    WHERE users.user_id = ? ORDER BY created_date DESC ", [user[0].user_id])
     .then((recipe) => {
       params["recipe"] = recipe;
       console.log(params)
@@ -202,7 +211,8 @@ app.get('/favourites',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
   if(sess.user){
-    db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM recipes \
+    db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+    users.username FROM recipes \
     INNER JOIN favourites ON favourites.recipe_id = recipes.recipe_id  \
     INNER JOIN users ON users.user_id = recipes.user_id \
     WHERE favourites.user_id=? \
@@ -219,6 +229,26 @@ app.get('/favourites',function(req,res){
     res.render('pages/favourites', params );
   }
 });
+
+// All recipes
+app.get('/category/:category_id',function(req,res){
+  var params = {};
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+  users.username, categories.name AS category FROM recipes \
+  INNER JOIN users ON recipes.user_id = users.user_id \
+  INNER JOIN categories ON recipes.category_id = categories.id\
+  WHERE recipes.category_id = ?", [req.params.category_id])
+  .then((recipe) => {
+    params["recipe"] = recipe;
+    console.log(params)
+    res.render('pages/category', params );
+  })
+  .catch((err) => {
+    console.log(err)
+    res.render('pages/category', params );
+  })
+});
+
 
 // Add new recipe
 app.get('/add_recipe',function(req,res){
@@ -239,13 +269,17 @@ app.get('/add_recipe',function(req,res){
 app.get('/login',function(req,res){
   sess=req.session;
   var params = {};
-  console.log(sess);
   if(sess.user){
     res.redirect("/");
   } else {
     if(sess.login_error){
       params["error"] = sess.login_error;
       delete sess.login_error;
+      res.render('pages/login', params);
+    }
+    else if(sess.signup_success){
+      params["success"] = sess.signup_success;
+      delete sess.signup_success;
       res.render('pages/login', params);
     }
     else{
@@ -257,11 +291,40 @@ app.get('/login',function(req,res){
 // Sign up page - Only shows when logged out
 app.get('/signup',function(req,res){
   sess=req.session;
+  var params = {};
   if(sess.user){
     res.redirect("/");
   } else {
-    res.render('pages/signup');
+    if(sess.signup_error){
+      params["signup_msg"] = sess.signup_error;
+      delete sess.signup_error;
+      res.render('pages/signup', params);
+    } else{
+      res.render('pages/signup');
+    }
   }
+});
+
+// Search function
+app.get('/search', function(req,res){
+  var params = [];
+  params["query"] = req.query.q;
+  if(req.query.q == ''){
+    params["err"] = "Invalid Search"
+    res.render('pages/search_results', params)
+  }
+  search.search_function({
+    q: req.query.q
+  })
+  .then((result) => {
+    params["results"] = result;
+    console.log(params);
+    res.render('pages/search_results', params)
+  })
+  .catch((err) => {
+    params["err"] = "Invalid Search"
+    res.render('pages/search_results', params)
+  })
 });
 
 // Logout
@@ -290,10 +353,13 @@ app.post('/createUser', (req, res) => {
     })
     .then(() => {
       console.log("User Created");
+      sess.signup_success = "User created! Please log in!";
       res.redirect("/login");
     })
     .catch(() => {
       console.log("Username or email taken");
+      console.log(sess);
+      sess.signup_error = "Username or email taken";
       res.redirect("/signup");
     })
 });
@@ -328,6 +394,7 @@ app.post('/addRecipe', (req, res) => {
     }
 });
 
+// Add a recipe to your favourites list
 app.post('/addFavourite', (req, res) => {
   sess=req.session;
   if(sess.user){
@@ -356,6 +423,7 @@ app.post('/addFavourite', (req, res) => {
     }
 });
 
+// Autheticate the login request
 app.post('/login', (req, res) => {
   sess=req.session;
   store.authenticate({
@@ -395,7 +463,9 @@ app.post('/usernameTaken', (req, res) => {
 // Get more recipes for infinite scroll
 app.get('/getRecipes', (req, res) => {
   // Check if username is taken
-  db.conn.query("SELECT recipes.name, recipes.image_url, users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id ORDER BY created_date DESC LIMIT ? OFFSET ? ",[req.query.limit, req.query.offset])
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+  users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id \
+  ORDER BY created_date DESC LIMIT ? OFFSET ? ",[req.query.limit, req.query.offset])
   .then((recipe) => {
     console.log(recipe.length);
     res.send(recipe)

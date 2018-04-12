@@ -3,7 +3,7 @@
       <% recipe.forEach(function(recipe) { %>
           <li>
             <div class="recipe-preview col-lg-6 col-md-6">
-              <a href = "/recipes/<%= recipe.name %>" >
+              <a href = "/recipes/<%- recipe.recipe_id %>" >
                 <div class="recipe-wrapper">
                   <!-- If there's no image then a default image should be used -->
                   <% if (recipe.image_url) { %>

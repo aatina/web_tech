@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <% include ../partials/head %>
+	</head>
+
+	<body>
+
+		<header>
+			<% include ../partials/header %>
+		</header>
+
+    <div class = "container content-wrapper">
+      <% if(results.length == 0) {%>
+        <h3> No search results found for "<%= query %>"</h3>
+				<p> Please try again! </p>
+				<form id="search-form" class="form-inline" action="/search" method="GET">
+					<input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" required>
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
+				<br><br>
+      <% } else { %>
+				<h3> Search results for "<%= query %>"</h3>
+        <% results.forEach(function(result) { %>
+          <div class="result">
+
+            <!--  RECIPES  -->
+            <% if (result.type == 1) { %>
+              <div class = "search-recipe">
+								<h3> Recipes: </h3>
+								<div id="recipe-block">
+			            <div class="recipe-preview col-lg-6 col-md-6">
+			              <a href = "/recipes/<%= result.id %>" >
+			                <div class="recipe-wrapper">
+			                  <!-- If there's no image then a default image should be used -->
+			                  <% if (result.image_url) { %>
+			                    <div class="recipe-image" style= 'background-image: url("<%= result.image_url %>")'></div>
+			                  <% } else { %>
+			                    <div class="recipe-image" style= 'background-image: url("/images/recipe_images/katsucurry.jpg")'></div>
+			                  <% } %>
+			                  <div class="image-text">
+			                    <%= result.name %>
+			                    <br>
+			                    <!-- username should link to user page, maybe?? -->
+			                    <span> by <%= result.author %></span>
+			                  </div>
+			                </div>
+			              </a>
+			            </div>
+								</div>
+              </div>
+
+            <!--  USERS  -->
+            <% } else if (result.type == 2) { %>
+              <div class = "search-user col-sm-12">
+                <% if (result.image_url) { %>
+                  <a href="/user/<%= result.name %>">
+                    <img class= "search-user-avatar" src="http://vanillicon.com/v2/<%= result.image_url %>.svg"/>
+                  </a>
+                <% } else { %>
+                  <a href="/user/<%= result.name %>">
+                    <img class ="search-user-avatar" src="/images/default_icon.png">
+                  </a>
+                <% } %>
+                <div class="search-user-name">
+                  <h3>Users: </h3>
+                  <a href="/user/<%= result.name %>">
+                    <p><%= result.name %></p>
+                  </a>
+                </div>
+              </div>
+
+            <!--  CATERGORIES  -->
+            <% } else if (result.type == 3) { %>
+              <div class = "search-category col-sm-12">
+								<h3> Category: </h3>
+                <a href="category/<%= result.id %>"><p class="capitalize"><%= result.name %></p></a>
+              </div>
+            <% } %>
+          </div>
+
+
+        <% }); %>
+        <!-- end of for loop -->
+
+      <% } %>
+    </div>
+    <% include ../partials/chatbox %>
+
+    <footer>
+      <% include ../partials/footer %>
+    </footer>
+
+  </body>
+</html>

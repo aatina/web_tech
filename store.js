@@ -11,7 +11,7 @@ module.exports = {
   createUser ({ username, password, email, avatar_url, birthday, location, about } ){
     return new Promise( ( resolve, reject ) => {
       const { salt, hash } = saltHashPassword( { password } )
-      db.conn.query(" SELECT username, email FROM users WHERE username = ? OR email = ? ", [username, email])
+      db.conn.query(" SELECT username, email FROM users WHERE TRIM(lower(username)) = TRIM(lower(?)) OR TRIM(lower(email)) = TRIM(lower(?)) ", [username, email])
       .then (user => {
         if(user.length != 0){ //Username or email taken
           console.log("rejected")
@@ -20,7 +20,7 @@ module.exports = {
         else{
           console.log("adding user")
           avatar_url = iconString(email)
-          db.conn.query("INSERT INTO users (username, password, salt, email, avatar_url, birthday, location, about) VALUES (?,?,?,?,?,?,?,?)", [username, hash, salt, email, avatar_url, birthday, location, about])
+          db.conn.query("INSERT INTO users (TRIM(username), password, salt, TRIM(email), avatar_url, birthday, location, about) VALUES (?,?,?,?,?,?,?,?)", [username, hash, salt, email, avatar_url, birthday, location, about])
           return resolve();
         }
       })

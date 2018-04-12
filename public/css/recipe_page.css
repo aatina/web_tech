@@ -37,7 +37,7 @@
 .navbar .login-nav {
   float: right;
 }
-.navbar .search-form {
+.navbar #search-form {
   float: right;
   margin: 15px;
 }
@@ -128,6 +128,17 @@
   border-radius: 5px;
   margin-top: 10px;
 }
+.success-message {
+  color: green;
+  padding: 10px;
+  background-color: #b1fcb0;
+  border: green 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+#error {
+  display: none;
+}
 .sign-up-button {
   background-image: none!important;
   border: none!important;
@@ -170,16 +181,28 @@
 .user-avatar {
   height: 300px;
 }
-.chatbox {
+#chatbox {
   position: fixed;
-  bottom: 0%;
+  bottom: -215px;
   right: 0%;
   z-index: 100;
   background-color: white;
   border: gray 2px solid;
   padding: 5px;
 }
-.chatbox #content {
+#chatbox #chat-head {
+  background-color: #604343;
+  width: 400px;
+  height: 35px;
+  text-align: center;
+  padding-top: 10px;
+  cursor: pointer;
+}
+#chatbox #chat-head span {
+  color: white;
+  font-weight: bold;
+}
+#chatbox #content {
   padding: 5px;
   background: #f8f8f8;
   border-radius: 5px;
@@ -187,34 +210,126 @@
   border: 1px solid #CCC;
   margin-top: 10px;
   height: 160px;
-  width: 500px;
+  width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
-.chatbox .chat-input {
+#chatbox .chat-input {
   margin: 0 auto;
-  width: 500px;
+  width: 400px;
 }
-.chatbox .chat-input #input {
+#chatbox .chat-input #input {
   border-radius: 2px;
   border: 1px solid #ccc;
   margin-top: 10px;
   padding: 5px;
-  width: 400px;
+  width: 300px;
   float: right;
 }
-.chatbox .chat-input #status {
+#chatbox .chat-input #status {
   width: 88px;
   display: block;
   float: left;
   margin-top: 15px;
 }
-.chatbox .chat-msg {
+#chatbox .chat-msg {
   margin: 0 5px;
 }
-.chatbox .chat-msg .chat-image {
+#chatbox .chat-msg .chat-image {
   height: 25px;
   margin: 0 3px;
+}
+.search-category {
+  margin-left: 30px;
+  margin-bottom: 40px;
+}
+.search-category p {
+  color: #00bf75;
+  font-weight: 700;
+  font-size: 20px;
+}
+.search-category p:hover {
+  color: #09e88b;
+}
+.search-recipe {
+  margin-bottom: 40px;
+}
+.search-recipe h3 {
+  margin-left: 45px;
+}
+.search-user {
+  margin-bottom: 40px;
+}
+.search-user a {
+  text-decoration: none;
+}
+.search-user .search-user-avatar {
+  display: inline-block;
+  border-radius: 50%;
+  height: 150px;
+  margin: 15px;
+}
+.search-user .search-user-avatar:hover {
+  -ms-animation: wiggle .3s 2;
+  -moz-animation: wiggle .3s 2;
+  -webkit-animation: wiggle .3s 2;
+  animation: wiggle .3s 2;
+}
+.search-user .search-user-name {
+  display: inline-block;
+  margin: 15px;
+}
+.search-user .search-user-name p {
+  color: #00bf75;
+  font-size: 20px;
+  font-weight: 700;
+}
+.search-user .search-user-name p:hover {
+  color: #09e88b;
+}
+@-ms-keyframes wiggle {
+  0% {
+    -ms-transform: rotate(3deg);
+  }
+  50% {
+    -ms-transform: rotate(-3deg);
+  }
+  100% {
+    -ms-transform: rotate(3deg);
+  }
+}
+@-moz-keyframes wiggle {
+  0% {
+    -moz-transform: rotate(3deg);
+  }
+  50% {
+    -moz-transform: rotate(-3deg);
+  }
+  100% {
+    -moz-transform: rotate(3deg);
+  }
+}
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(3deg);
+  }
+  50% {
+    -webkit-transform: rotate(-3deg);
+  }
+  100% {
+    -webkit-transform: rotate(3deg);
+  }
+}
+@keyframes wiggle {
+  0% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
 }
 body {
   background-color: #F8F8F8;
@@ -267,6 +382,9 @@ button {
   border-top: 10px solid #00bf75;
   -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
+}
+.capitalize {
+  text-transform: capitalize;
 }
 @keyframes spin {
   0% {

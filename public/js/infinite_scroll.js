@@ -1,3 +1,4 @@
+var delay = 500;
 var offset = 6;
 var limit = 4;
 var end_of_list = false;
@@ -37,9 +38,8 @@ $(window).scroll(function() {
                   image_text.className = "image-text";
                   var li = document.createElement('li');
 
-                  $(link).attr("href","/recipes/" + recipe[i].name);
+                  $(link).attr("href","/recipes/" + recipe[i].recipe_id);
                   $(image).css("background", "url('" + recipe[i].image_url + "')");
-                  //image_text.innerHTML = recipe[i].name + "<br><span> by" + recipe[i].username + "</span>";
                   image_text.insertAdjacentHTML("beforeend", recipe[i].name + "<br><span> by" + recipe[i].username + "</span>")
                   recipe_wrapper.appendChild(image);
                   recipe_wrapper.appendChild(image_text);
@@ -59,7 +59,7 @@ $(window).scroll(function() {
              }
            }
         });
-      }, 1500);
+      }, delay);
     }
   }
 });

@@ -33,11 +33,28 @@
           Favourites
         </a>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <i class="fa fa-lemon" aria-hidden="true"></i>
+          Categories
+          <b class="caret dropdown-toggle"></b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/category/1">Breakfast</a>
+          <a class="dropdown-item" href="/category/2">Salads</a>
+          <a class="dropdown-item" href="/category/3">Appetizers</a>
+          <a class="dropdown-item" href="/category/4">Soups</a>
+          <a class="dropdown-item" href="/category/5">Desserts</a>
+          <a class="dropdown-item" href="/category/6">Main</a>
+        </div>
+      </li>
     </ul>
-    <form class="search-form form-inline">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+
+    <form id="search-form" class="form-inline" action="/search" method="GET">
+      <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" required>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+
     <% if (locals.sess_user) { %>
       <ul class="navbar-nav login-nav">
         <li class="nav-item">
