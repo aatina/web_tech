@@ -136,6 +136,9 @@ app.get('/recipes/:recipe_id',function(req,res){
                   WHERE recipes.recipe_id=? COLLATE NOCASE",[req.params.recipe_id])
   .then((recipe) => {
     console.log(recipe)
+    if(recipe.length == 0){
+      res.redirect('/404');
+    }
     params["recipe"] = recipe;
     params["time_ago"] = timeAgo(recipe[0].created_date);
     params["method"] = converter.makeHtml(recipe[0].body);
@@ -176,6 +179,10 @@ app.get('/user/:username',function(req,res){
   var params = getSessionUser(sess);
   db.conn.query("SELECT * FROM users WHERE username = ?", [req.params.username])
   .then((user) => {
+    console.log(user.length)
+    if(user.length == 0){
+      res.redirect('/404');
+    }
     params["user"] = user;
     params["time_ago"] = timeAgo(user[0].member_since);
     console.log(user[0].user_id);
@@ -474,3 +481,10 @@ app.get('/getRecipes', (req, res) => {
     res.send(err);
   })
 });
+
+
+// 404 - MUST BE LAST REQUEST!
+
+app.use(function (req, res, next) {
+  res.status(404).render('pages/404', { url: req.url });
+})
