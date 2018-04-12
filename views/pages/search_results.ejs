@@ -22,13 +22,53 @@
 				<br><br>
       <% } else { %>
 				<h3> Search results for "<%= query %>"</h3>
+
+				<!--  CATERGORIES  -->
+				<% results.forEach(function(result) { %>
+					<div class="result">
+						<% if (result.type == 3) { %>
+							<div class = "search-category col-sm-12">
+								<h3> Category: </h3>
+								<a href="category/<%= result.id %>"><p class="capitalize"><%= result.name %></p></a>
+							</div>
+						<% } %>
+					</div>
+				<% }); %>
+				<!-- end of for loop -->
+				<div class="col-sm-12"></div>
+
+				<!--  USERS  -->
+				<% results.forEach(function(result) { %>
+					<div class="result">
+						<% if (result.type == 2) { %>
+							<div class = "search-user col-sm-6">
+								<% if (result.image_url) { %>
+									<a href="/user/<%= result.name %>">
+										<img class= "search-user-avatar" src="http://vanillicon.com/v2/<%= result.image_url %>.svg"/>
+									</a>
+								<% } else { %>
+									<a href="/user/<%= result.name %>">
+										<img class ="search-user-avatar" src="/images/default_icon.png">
+									</a>
+								<% } %>
+								<div class="search-user-name">
+									<h3>User: </h3>
+									<a href="/user/<%= result.name %>">
+										<p><%= result.name %></p>
+									</a>
+								</div>
+							</div>
+						<% } %>
+					</div>
+				<% }); %>
+				<!-- end of for loop -->
+				<div class="col-sm-12"></div>
+
+				<!--  RECIPES  -->
         <% results.forEach(function(result) { %>
           <div class="result">
-
-            <!--  RECIPES  -->
             <% if (result.type == 1) { %>
               <div class = "search-recipe">
-								<h3> Recipes: </h3>
 								<div id="recipe-block">
 			            <div class="recipe-preview col-lg-6 col-md-6">
 			              <a href = "/recipes/<%= result.id %>" >
@@ -50,39 +90,10 @@
 			            </div>
 								</div>
               </div>
-
-            <!--  USERS  -->
-            <% } else if (result.type == 2) { %>
-              <div class = "search-user col-sm-12">
-                <% if (result.image_url) { %>
-                  <a href="/user/<%= result.name %>">
-                    <img class= "search-user-avatar" src="http://vanillicon.com/v2/<%= result.image_url %>.svg"/>
-                  </a>
-                <% } else { %>
-                  <a href="/user/<%= result.name %>">
-                    <img class ="search-user-avatar" src="/images/default_icon.png">
-                  </a>
-                <% } %>
-                <div class="search-user-name">
-                  <h3>Users: </h3>
-                  <a href="/user/<%= result.name %>">
-                    <p><%= result.name %></p>
-                  </a>
-                </div>
-              </div>
-
-            <!--  CATERGORIES  -->
-            <% } else if (result.type == 3) { %>
-              <div class = "search-category col-sm-12">
-								<h3> Category: </h3>
-                <a href="category/<%= result.id %>"><p class="capitalize"><%= result.name %></p></a>
-              </div>
-            <% } %>
-          </div>
-
-
-        <% }); %>
-        <!-- end of for loop -->
+						<% } %>
+					</div>
+				<% }); %>
+				<!-- end of for loop -->
 
       <% } %>
     </div>

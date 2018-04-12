@@ -322,7 +322,7 @@ app.get('/search', function(req,res){
     res.render('pages/search_results', params)
   })
   .catch((err) => {
-    params["err"] = "Invalid Search"
+    console.log(err)
     res.render('pages/search_results', params)
   })
 });
