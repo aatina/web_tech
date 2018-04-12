@@ -18,6 +18,11 @@
     </div>
 
     <div class="container content-wrapper">
+			<% if (locals.success){ %>
+				<div class="success-message">
+					<%= success %>
+				</div>
+			<% } %>
 			<% include ../partials/recipes_view %>
 			<p> View <a href="/recipes"> more recipes here!</a> </p>
 			<br>

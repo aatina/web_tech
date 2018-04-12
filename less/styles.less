@@ -19,6 +19,9 @@
 @text: #635255;
 @error: #FFC4C4;
 @success: #b1fcb0;
+@light-gray: #f5f3ed;
+@med-gray: #EBEAE4;
+@dark-gray: #DCDAD5;
 
 body{
 	background-color: #F8F8F8;
@@ -79,6 +82,30 @@ button{
 
 .capitalize{
 	text-transform: capitalize;
+}
+
+.error-message{
+  color: red;
+  padding: 10px;
+  background-color: @error;
+  border: red 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+	width: 500px;
+	margin: 10px auto 0;
+	text-align: center;
+}
+
+.success-message{
+  color: green;
+  padding: 10px;
+  background-color: @success;
+  border: green 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+	width: 500px;
+	margin: 10px auto 0;
+	text-align: center;
 }
 
 @keyframes spin {

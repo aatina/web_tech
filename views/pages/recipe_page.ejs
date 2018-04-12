@@ -57,6 +57,11 @@
 
 						<div id="ingredients-col" class = "">
 							<h3> Ingredients </h3>
+							<ul>
+								<% recipe.forEach(function(recipe) { %>
+									<li><%= recipe.ingredient %></li>
+								<% }) %>
+							</ul>
 						</div>
 
 					</div>

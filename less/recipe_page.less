@@ -35,4 +35,29 @@
     top: -30px; // check for responsive
     width: 100%;
   }
+
+  #ingredients-col{
+    background-color: @light-gray;
+    border-radius: 5px;
+    h3{
+      color: @secondary-color;
+      padding-left: 10px;
+      padding-top: 10px;
+    }
+    ul{
+      padding-left: 0px;
+      li:first-child{
+        border-top: @dark-gray solid 2px;
+      }
+      li{
+        list-style: none;
+        padding: 10px;
+        border-bottom: @dark-gray dashed 2px;
+        background-color: @light-gray;
+      }
+      li:hover{
+        background-color: @med-gray;
+      }
+    }
+  }
 }

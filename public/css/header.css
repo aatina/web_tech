@@ -73,6 +73,17 @@
   top: -30px;
   width: 100%;
 }
+#recipe-page #ingredients-col ul {
+  background-color: #f5f3ed;
+  border-radius: 5px;
+}
+#recipe-page #ingredients-col ul li {
+  list-style: none;
+  padding: 10px;
+}
+#recipe-page #ingredients-col ul li:hover {
+  background-color: #f0f0f0;
+}
 .account-form form {
   text-align: center;
 }
@@ -81,22 +92,6 @@
 }
 .account-page p {
   text-align: center;
-}
-.error-message {
-  color: red;
-  padding: 10px;
-  background-color: #FFC4C4;
-  border: red 1px solid;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-.success-message {
-  color: green;
-  padding: 10px;
-  background-color: #b1fcb0;
-  border: green 1px solid;
-  border-radius: 5px;
-  margin-top: 10px;
 }
 #error {
   display: none;
@@ -132,6 +127,16 @@
   background: #4CAF50;
   cursor: pointer;
 }
+.ingredients-wrapper #add-ingredient {
+  background-color: #00bf75;
+  color: white;
+  font-weight: bolder;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
 .user-details .user-username {
   color: #00bf75;
   font-style: bold;
@@ -166,7 +171,7 @@
 }
 #chatbox #content {
   padding: 5px;
-  background: #f8f8f8;
+  background: #f5f3ed;
   border-radius: 5px;
   overflow-y: scroll;
   border: 1px solid #CCC;
@@ -212,6 +217,9 @@
 }
 .search-category p:hover {
   color: #09e88b;
+}
+.search-category a {
+  text-decoration: none;
 }
 .search-recipe {
   margin-bottom: 40px;
@@ -348,6 +356,28 @@ button {
 .capitalize {
   text-transform: capitalize;
 }
+.error-message {
+  color: red;
+  padding: 10px;
+  background-color: #FFC4C4;
+  border: red 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 500px;
+  margin: 10px auto 0;
+  text-align: center;
+}
+.success-message {
+  color: green;
+  padding: 10px;
+  background-color: #b1fcb0;
+  border: green 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 500px;
+  margin: 10px auto 0;
+  text-align: center;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -422,6 +452,7 @@ button {
 }
 .logo-wrapper {
   float: left;
+  margin-left: 10px;
 }
 .logo-wrapper img {
   width: 70px;

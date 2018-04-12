@@ -144,6 +144,30 @@
   top: -30px;
   width: 100%;
 }
+#recipe-page #ingredients-col {
+  background-color: #f5f3ed;
+  border-radius: 5px;
+}
+#recipe-page #ingredients-col h3 {
+  color: #00bf75;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+#recipe-page #ingredients-col ul {
+  padding-left: 0px;
+}
+#recipe-page #ingredients-col ul li:first-child {
+  border-top: #DCDAD5 solid 2px;
+}
+#recipe-page #ingredients-col ul li {
+  list-style: none;
+  padding: 10px;
+  border-bottom: #DCDAD5 dashed 2px;
+  background-color: #f5f3ed;
+}
+#recipe-page #ingredients-col ul li:hover {
+  background-color: #EBEAE4;
+}
 .account-form form {
   text-align: center;
 }
@@ -152,22 +176,6 @@
 }
 .account-page p {
   text-align: center;
-}
-.error-message {
-  color: red;
-  padding: 10px;
-  background-color: #FFC4C4;
-  border: red 1px solid;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-.success-message {
-  color: green;
-  padding: 10px;
-  background-color: #b1fcb0;
-  border: green 1px solid;
-  border-radius: 5px;
-  margin-top: 10px;
 }
 #error {
   display: none;
@@ -203,6 +211,16 @@
   background: #4CAF50;
   cursor: pointer;
 }
+.ingredients-wrapper #add-ingredient {
+  background-color: #00bf75;
+  color: white;
+  font-weight: bolder;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
 .user-details .user-username {
   color: #00bf75;
   font-style: bold;
@@ -237,7 +255,7 @@
 }
 #chatbox #content {
   padding: 5px;
-  background: #f8f8f8;
+  background: #f5f3ed;
   border-radius: 5px;
   overflow-y: scroll;
   border: 1px solid #CCC;
@@ -421,6 +439,28 @@ button {
 }
 .capitalize {
   text-transform: capitalize;
+}
+.error-message {
+  color: red;
+  padding: 10px;
+  background-color: #FFC4C4;
+  border: red 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 500px;
+  margin: 10px auto 0;
+  text-align: center;
+}
+.success-message {
+  color: green;
+  padding: 10px;
+  background-color: #b1fcb0;
+  border: green 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 500px;
+  margin: 10px auto 0;
+  text-align: center;
 }
 @keyframes spin {
   0% {

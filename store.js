@@ -52,8 +52,17 @@ module.exports = {
   addRecipe({name, body, user, category_id, cooking_time, calories}){
     return new Promise( ( resolve, reject ) => {
       console.log(`Adding recipe ${name}`);
-      //console.log(`Cooking time: cooking_time`);
-      db.conn.query("INSERT INTO recipes (name, body, user_id, category_id, cooking_time, calories) VALUES (?,?,?,?,?,?)", [name, body, user, category_id, cooking_time, calories])
+      db.conn.query("INSERT INTO recipes (name, body, user_id, category_id, \
+                    cooking_time, calories) VALUES (?,?,?,?,?,?)",
+                    [name, body, user, category_id, cooking_time, calories])
+      return resolve();
+    })
+  },
+  addIngredient({recipe_id, ingredient}){
+    return new Promise( ( resolve, reject ) => {
+      console.log(`Adding ingredient ${ingredient} to ${recipe_id}`);
+      db.conn.query("INSERT INTO recipe_ingredients (recipe_id, ingredient) VALUES (?,?)",
+                    [recipe_id, ingredient])
       return resolve();
     })
   },

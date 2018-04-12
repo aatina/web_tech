@@ -116,6 +116,10 @@ app.get('/',function(req,res){
   ORDER BY created_date DESC LIMIT 6")
   .then((recipe) => {
     params["recipe"] = recipe;
+    if(sess.added_recipe){
+      params["success"] = sess.added_recipe;
+      delete sess.added_recipe;
+    }
     res.render('pages/index', params );
   })
   .catch(() => {
@@ -129,10 +133,12 @@ app.get('/recipes/:recipe_id',function(req,res){
   var params = getSessionUser(sess);
   db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body, recipes.created_date, \
                   users.username, favourites.recipe_id AS favourite_recipe, favourites.user_id AS favourite_user, \
-                  categories.name AS category, recipes.cooking_time, recipes.calories \
+                  categories.name AS category, recipes.cooking_time, recipes.calories, \
+                  recipe_ingredients.ingredient \
                   FROM recipes INNER JOIN users ON recipes.user_id = users.user_id \
                   INNER JOIN categories ON recipes.category_id = categories.id \
                   LEFT JOIN favourites ON recipes.recipe_id = favourites.recipe_id \
+                  LEFT JOIN recipe_ingredients ON recipes.recipe_id = recipe_ingredients.recipe_id\
                   WHERE recipes.recipe_id=? COLLATE NOCASE",[req.params.recipe_id])
   .then((recipe) => {
     console.log(recipe)
@@ -145,12 +151,18 @@ app.get('/recipes/:recipe_id',function(req,res){
     console.log(params)
     // throws error when no sess.user
     db.conn.query("SELECT 1 FROM favourites WHERE user_id = ? AND recipe_id = ?", [sess.user.user_id, recipe[0].recipe_id])
-  .then((favourite) => {
-    params["favourite"] = (favourite.length > 0) ? true : false;
-    res.render('pages/recipe_page', params );
-  }) })
+    .then((favourite) => {
+      params["favourite"] = (favourite.length > 0) ? true : false;
+      res.render('pages/recipe_page', params );
+    })
+    .catch(()=>{
+      console.log("FAVES ERROR");
+      console.log(err);
+      res.render('pages/recipe_page', params );
+    })
+  })
   .catch((err) => {
-    //console.log("ERROR");
+    console.log("ERROR");
     console.log(err);
     res.render('pages/recipe_page', params );
   })
@@ -257,7 +269,7 @@ app.get('/category/:category_id',function(req,res){
 });
 
 
-// Add new recipe
+// Add new recipe page - NOTE: this function does not add a recipe, just goes to page
 app.get('/add_recipe',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
@@ -386,6 +398,21 @@ app.post('/addRecipe', (req, res) => {
       })
       .then(() => {
         console.log("Recipe Added " + req.body.recipe.name + " by " + sess.user.username);
+        db.conn.query("SELECT recipe_id FROM recipes ORDER BY recipe_id  DESC LIMIT 1")
+        .then((id) =>{
+          for(var i=0; i<req.body.recipe.ingredient.length; i++){
+            store.addIngredient({
+              recipe_id: id[0].recipe_id,
+              ingredient: req.body.recipe.ingredient[i]
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      })
+      .then(() => {
+        sess.added_recipe = "Added recipe!";
         res.redirect("/");
       })
       .catch((err) => {
