@@ -40,6 +40,10 @@
 .navbar #search-form {
   float: right;
   margin: 15px;
+  width: 330px;
+}
+.navbar #search-form input {
+  width: 250px;
 }
 .navbar .dropdown-menu:before {
   position: absolute;
@@ -121,22 +125,37 @@
   border-radius: 10px;
   padding: 15px 30px;
   color: #635255;
+  -webkit-transition: background-color 0.5s;
+  /* Safari */
+  transition: background-color 0.5s;
 }
 #recipe-page .banner #recipe-summary span {
   font-weight: bolder;
   color: #00bf75;
 }
+#recipe-page .banner #recipe-summary:hover {
+  background-color: rgba(255, 255, 255, 0.99);
+}
 #recipe-page .add-fave {
   font-size: 16px;
+  cursor: pointer;
+  font-weight: normal;
+  -webkit-transition: font-weight 0.1s;
+  /* Safari */
+  transition: font-weight 0.1s;
+  width: 200px;
 }
 #recipe-page .add-fave .fa-star {
-  font-size: 20px;
+  font-size: 30px;
 }
 #recipe-page .add-fave a {
   text-decoration: none;
 }
 #recipe-page .add-fave span {
   color: #635255;
+}
+#recipe-page .add-fave:hover {
+  font-weight: bold;
 }
 #recipe-page #method-col {
   background-color: white;
@@ -164,6 +183,9 @@
   padding: 10px;
   border-bottom: #DCDAD5 dashed 2px;
   background-color: #f5f3ed;
+  -webkit-transition: background-color 0.5s;
+  /* Safari */
+  transition: background-color 0.5s;
 }
 #recipe-page #ingredients-col ul li:hover {
   background-color: #EBEAE4;
@@ -211,6 +233,9 @@
   background: #4CAF50;
   cursor: pointer;
 }
+.ingredients-wrapper {
+  padding-left: 0px;
+}
 .ingredients-wrapper #add-ingredient {
   background-color: #00bf75;
   color: white;
@@ -220,6 +245,16 @@
   border-radius: 50%;
   height: 40px;
   width: 40px;
+  margin-top: 20px;
+}
+.ingredients-wrapper #ingredients-form {
+  padding-left: 0px;
+  margin-bottom: 5px;
+}
+.image-upload {
+  background-color: #EBEAE4;
+  padding: 10px;
+  border-radius: 5px;
 }
 .user-details .user-username {
   color: #00bf75;

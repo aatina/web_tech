@@ -19,7 +19,7 @@ module.exports = {
         }
         else{
           console.log("adding user")
-          avatar_url = iconString(email)
+          avatar_url = hashString(email)
           db.conn.query("INSERT INTO users (TRIM(username), password, salt, TRIM(email), avatar_url, birthday, location, about) VALUES (?,?,?,?,?,?,?,?)", [username, hash, salt, email, avatar_url, birthday, location, about])
           return resolve();
         }
@@ -81,6 +81,9 @@ module.exports = {
         }
       })
     })
+  },
+  hashString(word){
+    return crypto.createHash('md5').update(word).digest("hex");
   }
 }
 
@@ -90,8 +93,4 @@ function saltHashPassword ( { password, salt = randomString() } ) {
 }
 function randomString () {
   return crypto.randomBytes(4).toString('hex')
-}
-function iconString(email){
-  const hashString = crypto.createHash('md5').update(email).digest("hex");
-  return hashString
 }

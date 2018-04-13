@@ -7,6 +7,7 @@ const showdown  = require('showdown');
 const converter = new showdown.Converter();
 const timeAgo = require("node-time-ago")
 const expressWs = require('express-ws')(app);
+const fileUpload = require('express-fileupload');
 
 var store = require('./store');
 var db = require ('./db');
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(session({secret: 'ssshhhhh', resave: 'true', saveUninitialized: 'false'}));
+app.use(fileUpload());
 
 // View engine
 app.set('view engine', 'ejs');
@@ -30,7 +32,6 @@ app.listen(3000, () => console.log('Example app listening on port 3000!'));
 var sess;
 
 //***** WEBSOCKET *****//
-
 var aWss = expressWs.getWss('/');
 
 // latest 100 messages
@@ -86,6 +87,8 @@ app.ws('/echo', function(ws, req) {
   });
 });
 
+//** END WEBSOCKET **//
+
 // For now just returns username, but can be changed to get full user
 function getSessionUser(sess){
   if (sess.user){
@@ -111,9 +114,9 @@ app.get('/test', (req, res) => {
 app.get('/',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.name, recipes.recipe_id, recipes.image_url, \
+  db.conn.query("SELECT recipes.name, recipes.recipe_id, recipes.image_name, \
   users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id \
-  ORDER BY created_date DESC LIMIT 6")
+  ORDER BY created_date DESC LIMIT 10")
   .then((recipe) => {
     params["recipe"] = recipe;
     if(sess.added_recipe){
@@ -131,7 +134,7 @@ app.get('/',function(req,res){
 app.get('/recipes/:recipe_id',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
-  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, recipes.body, recipes.created_date, \
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_name, recipes.body, recipes.created_date, \
                   users.username, favourites.recipe_id AS favourite_recipe, favourites.user_id AS favourite_user, \
                   categories.name AS category, recipes.cooking_time, recipes.calories, \
                   recipe_ingredients.ingredient \
@@ -141,14 +144,12 @@ app.get('/recipes/:recipe_id',function(req,res){
                   LEFT JOIN recipe_ingredients ON recipes.recipe_id = recipe_ingredients.recipe_id\
                   WHERE recipes.recipe_id=? COLLATE NOCASE",[req.params.recipe_id])
   .then((recipe) => {
-    console.log(recipe)
     if(recipe.length == 0){
       res.redirect('/404');
     }
     params["recipe"] = recipe;
     params["time_ago"] = timeAgo(recipe[0].created_date);
     params["method"] = converter.makeHtml(recipe[0].body);
-    console.log(params)
     // throws error when no sess.user
     db.conn.query("SELECT 1 FROM favourites WHERE user_id = ? AND recipe_id = ?", [sess.user.user_id, recipe[0].recipe_id])
     .then((favourite) => {
@@ -173,7 +174,7 @@ app.get('/recipes',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
   db.conn.query("SELECT recipes.recipe_id, recipes.name, \
-  recipes.image_url, users.username FROM users \
+  recipes.image_name, users.username FROM users \
   INNER JOIN recipes ON recipes.user_id = users.user_id \
   ORDER BY created_date DESC LIMIT 6")
   .then((recipe) => {
@@ -199,7 +200,7 @@ app.get('/user/:username',function(req,res){
     params["time_ago"] = timeAgo(user[0].member_since);
     console.log(user[0].user_id);
     // TODO: to limit or not to limit?
-    db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+    db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_name, \
     users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id \
     WHERE users.user_id = ? ORDER BY created_date DESC ", [user[0].user_id])
     .then((recipe) => {
@@ -230,7 +231,7 @@ app.get('/favourites',function(req,res){
   sess=req.session;
   var params = getSessionUser(sess);
   if(sess.user){
-    db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+    db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_name, \
     users.username FROM recipes \
     INNER JOIN favourites ON favourites.recipe_id = recipes.recipe_id  \
     INNER JOIN users ON users.user_id = recipes.user_id \
@@ -252,11 +253,11 @@ app.get('/favourites',function(req,res){
 // All recipes
 app.get('/category/:category_id',function(req,res){
   var params = {};
-  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_name, \
   users.username, categories.name AS category FROM recipes \
   INNER JOIN users ON recipes.user_id = users.user_id \
   INNER JOIN categories ON recipes.category_id = categories.id\
-  WHERE recipes.category_id = ?", [req.params.category_id])
+  WHERE recipes.category_id = ? ORDER BY created_date DESC", [req.params.category_id])
   .then((recipe) => {
     params["recipe"] = recipe;
     console.log(params)
@@ -337,7 +338,6 @@ app.get('/search', function(req,res){
   })
   .then((result) => {
     params["results"] = result;
-    console.log(params);
     res.render('pages/search_results', params)
   })
   .catch((err) => {
@@ -377,7 +377,6 @@ app.post('/createUser', (req, res) => {
     })
     .catch(() => {
       console.log("Username or email taken");
-      console.log(sess);
       sess.signup_error = "Username or email taken";
       res.redirect("/signup");
     })
@@ -387,36 +386,62 @@ app.post('/createUser', (req, res) => {
 // Create a new recipe - only if logged in
 app.post('/addRecipe', (req, res) => {
   sess=req.session;
+  var recipe_id;
   if(sess.user){
+    // Add main recipe body to database
     store.addRecipe({
-        name: req.body.recipe.name,
-        body: req.body.recipe.body,
-        category_id: req.body.recipe.category_id,
-        cooking_time: req.body.recipe.cooking_time,
-        calories: req.body.recipe.calories,
+        name: req.body.name,
+        body: req.body.body,
+        category_id: req.body.category_id,
+        cooking_time: req.body.cooking_time,
+        calories: req.body.calories,
         user: sess.user.user_id
       })
       .then(() => {
-        console.log("Recipe Added " + req.body.recipe.name + " by " + sess.user.username);
+        console.log("Recipe Added " + req.body.name + " by " + sess.user.username);
         db.conn.query("SELECT recipe_id FROM recipes ORDER BY recipe_id  DESC LIMIT 1")
         .then((id) =>{
-          for(var i=0; i<req.body.recipe.ingredient.length; i++){
+          // Add ingredients list to recipe-ingredients table
+          recipe_id = id[0].recipe_id;
+          for(var i=0; i<req.body.ingredient.length; i++){
             store.addIngredient({
-              recipe_id: id[0].recipe_id,
-              ingredient: req.body.recipe.ingredient[i]
+              recipe_id: recipe_id,
+              ingredient: req.body.ingredient[i]
             })
           }
+        })
+        .then(()=>{
+          // Add image to recipe table
+          if (!req.files){
+            return res.status(400).send('No files were uploaded.');
+          }
+          // The name of the input field (i.e. "image") is used to retrieve the uploaded file
+          let image = req.files.image;
+          console.log(recipe_id)
+          var image_name = store.hashString(recipe_id.toString()).substring(0,11);;
+          var image_url = 'public/images/recipe_images/' + image_name + ".png"; //filetype?
+          // Use the mv() method to place the file somewhere on your server
+          image.mv(image_url, function(err) {
+            if (err){
+              console.log("file move error")
+              console.log(err)
+            }
+          });
+          db.conn.query("UPDATE recipes SET image_name = ? WHERE recipe_id=?",[image_name, recipe_id])
+          .catch((err) => {
+            console.log(err)
+          })
         })
         .catch((err) => {
           console.log(err);
         })
       })
       .then(() => {
-        sess.added_recipe = "Added recipe!";
+        sess.added_recipe = "Added recipe " + req.body.name + "!";
         res.redirect("/");
       })
       .catch((err) => {
-        console.log("Error adding recipe " + req.body.recipe.name + " by " + sess.user.username);
+        console.log("Error adding recipe " + req.body.name + " by " + sess.user.username);
         console.log(err);
         //sess.add_recipe_error = "";
         res.redirect("/add_recipe");
@@ -497,7 +522,7 @@ app.post('/usernameTaken', (req, res) => {
 // Get more recipes for infinite scroll
 app.get('/getRecipes', (req, res) => {
   // Check if username is taken
-  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_url, \
+  db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_name, \
   users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id \
   ORDER BY created_date DESC LIMIT ? OFFSET ? ",[req.query.limit, req.query.offset])
   .then((recipe) => {
@@ -511,7 +536,6 @@ app.get('/getRecipes', (req, res) => {
 
 
 // 404 - MUST BE LAST REQUEST!
-
 app.use(function (req, res, next) {
   res.status(404).render('pages/404', { url: req.url });
 })

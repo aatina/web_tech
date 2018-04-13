@@ -75,7 +75,7 @@
 			                <div class="recipe-wrapper">
 			                  <!-- If there's no image then a default image should be used -->
 			                  <% if (result.image_url) { %>
-			                    <div class="recipe-image" style= 'background-image: url("<%= result.image_url %>")'></div>
+			                    <div class="recipe-image" style= 'background-image: url("/images/recipe_images/<%= result.image_url %>.png")'></div>
 			                  <% } else { %>
 			                    <div class="recipe-image" style= 'background-image: url("/images/recipe_images/katsucurry.jpg")'></div>
 			                  <% } %>

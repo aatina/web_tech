@@ -9,7 +9,7 @@ module.exports = {
                       SELECT \
                     	recipes.name 	    AS name, \
                       recipes.recipe_id AS id,\
-                    	recipes.image_url AS image_url, \
+                    	recipes.image_name AS image_url, \
                       users.username    AS author, \
                     	1 	     	        AS type  \
                     	FROM recipes \

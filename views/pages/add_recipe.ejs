@@ -17,57 +17,65 @@
 			<% } %> -->
 			<h1>Add a recipe</h1>
 			<% if (locals.sess_user) { %>
-      <form class="AddRecipe needs-validation" action="/addRecipe" method="POST">
+      <form class="AddRecipe needs-validation" action="/addRecipe" method="POST" encType="multipart/form-data">
 				<div class="form-group">
 					<label>Recipe Title</label>
-					<input type="text" class="recipe_name form-control" name="recipe[name]" placeholder="Enter title" required>
+					<input type="text" class="recipe_name form-control" name="name" placeholder="Enter title" required>
 				</div>
 				<div class="row">
 					<div class="form-group col-sm-6">
 						<label class="mr-sm-2" for="inlineFormCustomSelect">Category</label>
-						<select class="category-select form-control" name="recipe[category_id]" required>
-							<!-- <option selected>Choose...</option> -->
+						<select class="custom-select capitalize form-control" name="category_id" required>
 							<% category.forEach(function(category) { %>
-								<option value="<%= category.id %>"> <%= category.name %></option>
+								<option value="<%= category.id %>"><span ><%= category.name %></span></option>
 							<% }); %>
 						</select>
 					</div>
 					<div class="form-group col-sm-6">
 						<label>Calories</label>
-						<input type="number" class="recipe_calories form-control" name="recipe[calories]" required>
+						<input type="number" class="recipe_calories form-control" name="calories">
 					</div>
 				</div>
 				<!--  Slider -->
 				<div class="form-group">
 					<div class="slider-container">
-					  <input type="range" min="0" max="360" name="recipe[cooking_time]" value="0" class="slider" id="cooking_time">
+					  <input type="range" min="0" max="360" name="cooking_time" value="0" class="slider" id="cooking_time">
 					</div>
 					<div id="slider-output"></div>
 				</div>
 
-				<div class="form-group">
-					<label>Method</label>
-					<textarea class="form-control recipe_body" name="recipe[body]" rows="3" required="true"></textarea>
-					<small class="form-text text-muted">Formatted in
-						<a href = "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
-							markdown
-						</a>
-					</small>
-  			</div>
 				<div class="ingredients-wrapper col-sm-12">
 					<div id="ingredients-area">
 						<div id="ingredients-form" class="form-group col-sm-6">
 							<label>Ingredients</label>
-							<input class="form-control recipe_ingredient" name="recipe[ingredient][]"></input>
+							<input class="form-control recipe_ingredient" name="ingredient"></input>
 						</div>
 					</div>
 					<button id="add-ingredient">+</button>
 				</div>
 
 				<div class="form-group">
+					<label>Method</label>
+					<textarea class="form-control recipe_body" name="body" rows="3" required="true"></textarea>
+					<small class="form-text text-muted">Formatted in
+						<a href = "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
+							markdown
+						</a>
+					</small>
+  			</div>
+
+				<div class="custom-file form-group">
+					<div class="image-upload">
+						<input type="file" name="image"/>
+						<small class="form-text text-muted">Make sure to upload an image!</small>
+					</div>
+				</div>
+
+				<div class="form-group">
 					<button type="submit" class="btn btn-primary">Submit</button>
 				</div>
       </form>
+
 			<% } else { %>
 				<p> Please <a href = "/login">log in</a> to add a recipe </p>
 			<% } %>
@@ -106,7 +114,7 @@
 					 num_inputs ++;
 					 var new_ing_input = document.createElement('input');
 					 $(new_ing_input).addClass("form-control recipe_ingredient");
-					 $(new_ing_input).attr("name", "recipe[ingredient][]");
+					 $(new_ing_input).attr("name", "ingredient");
 					 $("#ingredients-form").append(new_ing_input);
 				 });
 			});

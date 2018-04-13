@@ -39,7 +39,7 @@ $(window).scroll(function() {
                   var li = document.createElement('li');
 
                   $(link).attr("href","/recipes/" + recipe[i].recipe_id);
-                  $(image).css("background", "url('" + recipe[i].image_url + "')");
+                  $(image).css("background", "url('/images/recipe_images/" + recipe[i].image_name + ".png')");
                   image_text.insertAdjacentHTML("beforeend", recipe[i].name + "<br><span> by" + recipe[i].username + "</span>")
                   recipe_wrapper.appendChild(image);
                   recipe_wrapper.appendChild(image_text);
