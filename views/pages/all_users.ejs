@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <% include ../partials/head %>
+	</head>
+
+	<body>
+
+		<header>
+			<% include ../partials/header %>
+		</header>
+
+    <div class="container content-wrapper">
+			<h2>All users</h2>
+      <% users.forEach(function(user) { %>
+        <div class = "search-user col-sm-6">
+          <% if (user.avatar_url) { %>
+            <a href="/user/<%= user.username %>">
+              <img class= "search-user-avatar" src="http://vanillicon.com/v2/<%= user.avatar_url %>.svg"/>
+            </a>
+          <% } else { %>
+            <a href="/user/<%= user.username %>">
+              <img class ="search-user-avatar" src="/images/default_icon.png">
+            </a>
+          <% } %>
+          <div class="search-user-name">
+            <a href="/user/<%= user.username %>">
+              <p><%= user.username %></p>
+            </a>
+          </div>
+          <div class="search-user-bio">
+              <p><%= user.about %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+		<% include ../partials/chatbox %>
+
+		<footer>
+			<% include ../partials/footer %>
+		</footer>
+
+  </body>
+</html>

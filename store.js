@@ -20,16 +20,26 @@ module.exports = {
         else{
           console.log("adding user")
           avatar_url = hashString(email)
-          db.conn.query("INSERT INTO users (TRIM(username), password, salt, TRIM(email), avatar_url, birthday, location, about) VALUES (?,?,?,?,?,?,?,?)", [username, hash, salt, email, avatar_url, birthday, location, about])
-          return resolve();
+          db.conn.query("INSERT INTO users (username, password, salt, email, avatar_url, birthday, location, about) VALUES (TRIM(lower(?)),?,?,TRIM(lower(?)),?,?,?,?)", [username, hash, salt, email, avatar_url, birthday, location, about])
+          .then(()=>{
+            return resolve();
+          })
+          .catch((err) => {
+            console.log(err)
+            return reject();
+          })
         }
+      })
+      .catch((err) => {
+        console.log("signup error")
+        console.log(err);
       })
     })
   },
   authenticate ({ username, password }) {
     return new Promise( ( resolve, reject ) => {
       console.log(`Authenticating user ${username}`);
-      db.conn.query("SELECT * FROM users WHERE username = ? ", [username])
+      db.conn.query("SELECT * FROM users WHERE username = lower(?) ", [username])
       .then( user => {
         if(user.length > 0){
           // do something with the result
@@ -94,3 +104,7 @@ function saltHashPassword ( { password, salt = randomString() } ) {
 function randomString () {
   return crypto.randomBytes(4).toString('hex')
 }
+
+function hashString(word){
+    return crypto.createHash('md5').update(word).digest("hex");
+  }

@@ -29,8 +29,13 @@
 		    </div>
 
 		    <div class="form-group">
-		      <input type="password" name="user[password]" class="password form-control" placeholder="password" required>
+		      <input id="password" type="password" name="user[password]" class="password form-control" placeholder="password" required>
 		    </div>
+
+				<div class="form-group">
+		      <input id="password-confirm" type="password" class="password form-control" placeholder="Confirm password" required>
+		    </div>
+		    <div id="error_pass" class="error-message">Passwords do not match!</div>
 
 		    <div class="form-group">
 		      <input type="email"  name="user[email]" class="email form-control" placeholder="email" required>
@@ -79,6 +84,11 @@
 		     e.returnValue = false;
 
         var $form = $(this);
+
+				if ($("#password").val() != $("#password-confirm").val()){
+					$("#error_pass").css("display", "block");
+					return false;
+				}
 
          $.ajax({
              type: 'post',

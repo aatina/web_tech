@@ -7,6 +7,7 @@
 @import "user_page";
 @import "chatbox";
 @import "search_results";
+@import "footer";
 @import "styles";
 
 @background-color: #f4f4f4;
@@ -22,6 +23,9 @@
 @light-gray: #f5f3ed;
 @med-gray: #EBEAE4;
 @dark-gray: #DCDAD5;
+
+
+@footer-height: 50px; // to push footer to bottom
 
 body{
 	background-color: #F8F8F8;
@@ -52,9 +56,19 @@ p{
 		}
 	}
 }
+
+html, body {
+    height: 100%;
+}
+
 .content-wrapper{
 	background: white;
 	height: 100%;
+	padding-bottom: 50px;
+	min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -@footer-height;
 	h2{
 		color: @text;
 	}
@@ -91,7 +105,7 @@ button{
   border: red 1px solid;
   border-radius: 5px;
   margin-top: 10px;
-	width: 500px;
+	max-width: 500px;
 	margin: 10px auto 0;
 	text-align: center;
 }
@@ -103,7 +117,7 @@ button{
   border: green 1px solid;
   border-radius: 5px;
   margin-top: 10px;
-	width: 500px;
+	max-width: 500px;
 	margin: 10px auto 0;
 	text-align: center;
 }

@@ -186,6 +186,23 @@ app.get('/recipes',function(req,res){
   })
 });
 
+// All users
+app.get('/users',function(req,res){
+  sess=req.session;
+  var params = getSessionUser(sess);
+  db.conn.query("SELECT * FROM users \
+  ORDER BY member_since ASC")
+  .then((users) => {
+    params["users"] = users;
+    console.log(users)
+    res.render('pages/all_users', params );
+  })
+  .catch((err) => {
+    console.log(err);
+    res.render('pages/all_users', params );
+  })
+});
+
 //User page
 app.get('/user/:username',function(req,res){
   sess=req.session;
@@ -364,12 +381,13 @@ app.post('/createUser', (req, res) => {
       location: req.body.user.location,
       about: req.body.user.about
     })
-    .then(() => {
+    .then((user) => {
       console.log("User Created");
       sess.signup_success = "User created! Please log in!";
       res.redirect("/login");
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       console.log("Username or email taken");
       sess.signup_error = "Username or email taken";
       res.redirect("/signup");
