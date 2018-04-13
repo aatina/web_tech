@@ -13,7 +13,11 @@
 
 		<div id="recipe-page">
 
+			<% if (recipe[0].image_name) { %>
 			<div class="jumbrotron banner" style="	background-image: url('../../images/recipe_images/<%= recipe[0].image_name %>.png');">
+			<% } else { %>
+			<div class="jumbrotron banner" style="	background-image: url('../../images/recipe_images/default_recipe.png');">
+			<% } %>
 				<div id="recipe-summary">
 					<div class="recipe-summary-detail">
 						<span>Category</span>
@@ -21,11 +25,19 @@
 					</div>
 					<div class="recipe-summary-detail">
 						<span>Cooking Time</span>
-						<p id="cooking_time"></p>
+						<% if (recipe[0].cooking_time) { %>
+							<p id="cooking_time"></p>
+						<% } else { %>
+							<p> - </p>
+						<% } %>
 					</div>
 					<div class="recipe-summary-detail">
 						<span>Calories</span>
-						<p><%= recipe[0].calories %></p>
+						<% if (recipe[0].calories) { %>
+							<p><%= recipe[0].calories %></p>
+						<% } else { %>
+							<p> - </p>
+						<% } %>
 					</div>
 	      </div>
 			</div>

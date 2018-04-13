@@ -93,6 +93,7 @@
   height: 250px;
   width: 100%;
   border-radius: 20px;
+  background-position: center;
 }
 #recipe-block .recipe-preview .recipe-wrapper .image-text {
   color: white;
@@ -427,9 +428,9 @@ p {
   color: #635255;
 }
 .banner {
-  background-position: 0 -50px;
+  background-position: center;
   background-size: cover;
-  padding-bottom: 300px;
+  padding-bottom: 400px;
   position: relative;
 }
 .banner #title-wrapper {

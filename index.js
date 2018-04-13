@@ -219,12 +219,6 @@ app.get('/user/:username',function(req,res){
   })
 });
 
-//Edit user profile
-app.get('/edit_user',function(req,res){
-  sess=req.session;
-  var params = getSessionUser(sess);
-  res.render('pages/edit_user', params );
-});
 
 //Favourites of the user
 app.get('/favourites',function(req,res){
