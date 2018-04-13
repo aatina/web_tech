@@ -549,5 +549,8 @@ app.get('/getRecipes', (req, res) => {
 
 // 404 - MUST BE LAST REQUEST!
 app.use(function (req, res, next) {
-  res.status(404).render('pages/404', { url: req.url });
+  sess=req.session;
+  var params = getSessionUser(sess);
+  params["url"] = req.url;
+  res.status(404).render('pages/404', params);
 })
