@@ -2,12 +2,12 @@ const express = require('express')
 const session = require('express-session');
 const app = express();
 const path = require("path");
-const bodyParser = require('body-parser');
 const showdown  = require('showdown');
 const converter = new showdown.Converter();
 const timeAgo = require("node-time-ago")
 const expressWs = require('express-ws')(app);
 const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
 
 var store = require('./store');
 var db = require ('./db');
@@ -15,12 +15,13 @@ var search = require ('./search');
 
 //For css and other objects that need to be served to visitors
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: 'ssshhhhh', resave: 'true', saveUninitialized: 'false'}));
+app.use(fileUpload());
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
-app.use(session({secret: 'ssshhhhh', resave: 'true', saveUninitialized: 'false'}));
-app.use(fileUpload());
 
 // View engine
 app.set('view engine', 'ejs');
@@ -359,6 +360,17 @@ app.get('/search', function(req,res){
 
 // Logout
 app.get('/logout',function(req,res){
+  // if(req.query.token){
+  //   if( sess.token == req.query.token ){
+  // LOGOUT STUFF HERE
+  //   }
+  //   else{
+  //     res.redirect('/');
+  //   }
+  // }
+  // else{
+  //   res.redirect('/');
+  // }
   req.session.destroy(function(err) {
     if(err) {
       console.log(err);
@@ -497,12 +509,14 @@ app.post('/addFavourite', (req, res) => {
 // Autheticate the login request
 app.post('/login', (req, res) => {
   sess=req.session;
+  //console.log(sess.token);
   store.authenticate({
       username: req.body.user.username,
       password: req.body.user.password
   })
   .then((user) => {
     sess.user = user;
+    //sess.user.token = Math.random().toString(36).substring(7);
     console.log("Valid credentials")
     res.redirect("/")
   })

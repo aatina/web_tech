@@ -14,12 +14,16 @@
 		<div class="content-wrapper container">
 			<h2>Favourites</h2>
 			 <% if (locals.sess_user) { %>
-				 <% include ../partials/recipes_view %>
+				 <% if (recipe.length > 0) { %>
+				 	<% include ../partials/recipes_view %>
+				<% } else { %>
+					<p> You have no favourites! View <a href = "/recipes">all recipes</a> to add some. </p>
+				<% } %>
 			 <% } else { %>
 				 <p> Please <a href = "/login">log in</a> to view your favourites! </p>
 			 <% } %>
 		</div>
-		
+
 		<% include ../partials/chatbox %>
 
 		<footer>

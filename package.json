@@ -19,7 +19,6 @@
     "express-ws": "^3.0.0",
     "less": "^2.7.3",
     "less-watch-compiler": "^1.11.0",
-    "mysql": "^2.15.0",
     "node-time-ago": "^1.0.0",
     "nodemon": "^1.14.12",
     "showdown": "^1.8.6",

@@ -95,6 +95,7 @@
   width: 100%;
   border-radius: 20px;
   background-position: center;
+  background-size: cover;
 }
 #recipe-block .recipe-preview .recipe-wrapper .image-text {
   color: white;
@@ -438,9 +439,6 @@
 .footer a:hover {
   font-weight: bold;
 }
-.push {
-  height: 50px;
-}
 body {
   background-color: #F8F8F8;
 }
@@ -474,10 +472,10 @@ body {
 }
 .content-wrapper {
   background: white;
-  padding-bottom: 50px;
-  min-height: 100%;
-  height: auto !important;
   height: 100%;
+  padding-bottom: 50px;
+  min-height: 95%;
+  height: auto !important;
   margin: 0 auto -50px;
 }
 .content-wrapper h2 {
