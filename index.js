@@ -93,23 +93,15 @@ app.ws('/echo', function(ws, req) {
 // For now just returns username, but can be changed to get full user
 function getSessionUser(sess){
   if (sess.user){
-    console.log("Logged in")
     return { sess_user: {username: sess.user.username} };
   }
   else {
-    console.log("Not Logged in")
     return {}
   }
 }
 
 // ** GET requests ** //
-app.get('/test', (req, res) => {
-  sess=req.session;
-  db.conn.query("SELECT username FROM users", function (err, result, fields) {
-    if (err) throw err;
-    console.log(result);
-  })
-});
+
 
 // Home page
 app.get('/',function(req,res){
@@ -264,7 +256,8 @@ app.get('/favourites',function(req,res){
 
 // All recipes
 app.get('/category/:category_id',function(req,res){
-  var params = {};
+  sess=req.session;
+  var params = getSessionUser(sess);
   db.conn.query("SELECT recipes.recipe_id, recipes.name, recipes.image_name, \
   users.username, categories.name AS category FROM recipes \
   INNER JOIN users ON recipes.user_id = users.user_id \
@@ -272,7 +265,6 @@ app.get('/category/:category_id',function(req,res){
   WHERE recipes.category_id = ? ORDER BY created_date DESC", [req.params.category_id])
   .then((recipe) => {
     params["recipe"] = recipe;
-    console.log(params)
     res.render('pages/category', params );
   })
   .catch((err) => {
@@ -339,7 +331,8 @@ app.get('/signup',function(req,res){
 
 // Search function
 app.get('/search', function(req,res){
-  var params = [];
+  sess=req.session;
+  var params = getSessionUser(sess);
   params["query"] = req.query.q;
   if(req.query.q == ''){
     params["err"] = "Invalid Search"
@@ -400,7 +393,6 @@ app.post('/createUser', (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      console.log("Username or email taken");
       sess.signup_error = "Username or email taken";
       res.redirect("/signup");
     })
@@ -441,7 +433,6 @@ app.post('/addRecipe', (req, res) => {
           }
           // The name of the input field (i.e. "image") is used to retrieve the uploaded file
           let image = req.files.image;
-          console.log(recipe_id)
           var image_name = store.hashString(recipe_id.toString()).substring(0,11);;
           var image_url = 'public/images/recipe_images/' + image_name + ".png"; //filetype?
           // Use the mv() method to place the file somewhere on your server
@@ -530,7 +521,6 @@ app.post('/login', (req, res) => {
 // Return true if the username is valid and available
 app.post('/usernameTaken', (req, res) => {
   // Check if username is taken
-  // console.log(req.query.username);
   db.conn.query("SELECT 1 FROM users WHERE username = ?",[req.body.username])
   .then((result) => {
     if(result.length > 0)
@@ -552,7 +542,6 @@ app.get('/getRecipes', (req, res) => {
   users.username FROM users INNER JOIN recipes ON recipes.user_id = users.user_id \
   ORDER BY created_date DESC LIMIT ? OFFSET ? ",[req.query.limit, req.query.offset])
   .then((recipe) => {
-    console.log(recipe.length);
     res.send(recipe)
   })
   .catch((err) => {
